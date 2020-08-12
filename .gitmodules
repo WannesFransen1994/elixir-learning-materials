@@ -1,3 +1,9 @@
 [submodule "elixir-basics"]
 	path = elixir-basics
 	url = https://github.com/WannesFransen1994/elixir-basics
+[submodule "elixir-otp"]
+	path = elixir-otp
+	url = https://github.com/WannesFransen1994/elixir-otp
+[submodule "elixir-distributed"]
+	path = elixir-distributed
+	url = https://github.com/WannesFransen1994/elixir-distributed
