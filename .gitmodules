@@ -7,3 +7,6 @@
 [submodule "elixir-distributed"]
 	path = elixir-distributed
 	url = https://github.com/WannesFransen1994/elixir-distributed
+[submodule "phoenix-framework"]
+	path = phoenix-framework
+	url = https://github.com/WannesFransen1994/phoenix-framework
