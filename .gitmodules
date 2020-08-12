@@ -1,0 +1,3 @@
+[submodule "elixir-basics"]
+	path = elixir-basics
+	url = https://github.com/WannesFransen1994/elixir-basics
