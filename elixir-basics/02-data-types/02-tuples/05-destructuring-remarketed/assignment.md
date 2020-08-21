@@ -11,10 +11,10 @@ cond do
 end
 ```
 
-Turns out you can also use it to pattern match!
+Turns out you can also use the similar `case` to pattern match!
 
 ```elixir
-cond x do
+case x do
   pattern1 -> ...
   pattern2 -> ...
   pattern3 -> ...
@@ -26,7 +26,7 @@ For example,
 ```elixir
 # Full house == pair and triple
 def full_house?(cards) do
-    cond sort_cards_by_value(x) do
+    case sort_cards_by_value(x) do
         {x, x, x, y, y} -> true
         {y, y, x, x, x} -> true
         _               -> false
@@ -39,7 +39,7 @@ In fact, you can even throw in some guards, too:
 ```elixir
 # For purists that don't consider 5 5 5 5 5 a real full house
 def full_house?(cards) do
-    cond sort_cards_by_value(x) do
+    case sort_cards_by_value(x) do
         {x, x, x, y, y} when x != y -> true
         {y, y, x, x, x} when x != y -> true
         _                           -> false

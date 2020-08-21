@@ -1,6 +1,6 @@
 # Assignment
 
-Start with reading up on [atoms](/docs/atoms.md).
+Start with reading up on [atoms](/elixir-basics/reading-materials/atoms.md).
 
 As an example usage of atoms, let's implement the core functionality of rock-paper-scissors.
 First we need to decide how to represent the three possible choices: rock, paper, and scissors.
@@ -9,7 +9,7 @@ We have many options:
 * Strings: overkill. Too flexible and slow.
 * Integers: too abstract. We'd have to remember which number represents which choice.
 * Booleans: not enough of them.
-* Functions: cakepoint for the first who manages to do this.
+* Functions: kudos if you manage to do this.
 * Atoms: aha! Idiomatic and simple. Perfect!
 
 Now, let's write a function `beats?(x, y)` that checks whether `x` beats `y`.

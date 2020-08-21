@@ -16,7 +16,7 @@ end
 
 If you want to "pick up" `foo` as if it were a value, you need to use a special syntax in Elixir, namely
 `&Foo.foo/1`. The ampersand indicates "I am referring to a function here", the `/1` corresponds to the arity.
-As [explained previously](/docs/compiler-checks.md), Elixir allows overloading, i.e., multiple
+As [explained previously](/elixir-basics/reading-materials/compiler-checks.md), Elixir allows overloading, i.e., multiple
 functions sharing the same name, as long as their arity differs.
 
 ```elixir

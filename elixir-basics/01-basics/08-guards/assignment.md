@@ -76,7 +76,7 @@ For each built-in type, there is a corresponding function that checks whether a 
 You can find a list [here](https://hexdocs.pm/elixir/Kernel.html). Note how, although
 these functions are predicates, they lack the characterizing question mark at the end of their name.
 This is to make them stand out: the `is_` prefix indicates the predicate is meant to be used in guards,
-while "regular" predicates are not allowed there. Cakepoint for the first who tells us why.
+while "regular" predicates are not allowed there.
 
 Multiple checks can be combined using the `and` operator:
 

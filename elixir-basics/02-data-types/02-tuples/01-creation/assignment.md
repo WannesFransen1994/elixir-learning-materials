@@ -23,8 +23,8 @@ Tuple related functionality resides in its own module, unsurprisingly
 named `Tuple`. Feel free to take a look at the [documentation](https://hexdocs.pm/elixir/Tuple.html) to get
 an idea of what is readily available.
 
-Note that because Elixir is a purely functional
-language, you are not allowed to modify tuples.
+Note that because Elixir is a purely [functional
+language](/elixir-basics/reading-materials/functional-programming.md), you are not allowed to modify tuples.
 Instead, you are supposed to create new tuples.
 For example, the `Tuple.delete` function removes an element from a tuple,
 but it does so by returning a new tuple with the specified element missing:
