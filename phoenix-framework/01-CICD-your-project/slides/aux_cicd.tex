@@ -1,0 +1,36 @@
+\section{CI / CD}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{What is Continuous Integration?}   
+    \begin{itemize}
+        \item \href{https://circleci.com/blog/what-is-continuous-integration/}{[BLOG POST]}
+        \item multiple developers pushing small, frequent changes to a shared repository
+        \item \href{https://en.wikipedia.org/wiki/Continuous_integration}{[COMMON PRACTICES]}
+        \item often comes with Continuous Deployment
+        \item CircleCI build has generally multiple steps:
+        \begin{itemize}
+            \item dependencies
+            \item testing
+            \item deployment
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{How your repo will look like}   
+    \includegraphics[scale=0.25]{01-sample-branches}
+    
+    feel free to simplify this to following branches:
+    \begin{itemize}
+        \item dev
+        \item prod
+    \end{itemize}
+    you can configure your CI/CD to do specific task on specific branches (e.g. only deploy prod branch)
+\end{frame}
+
+\begin{frame}
+    \frametitle{Github repo demo}
+    follow the guide in the guide folder
+\end{frame}

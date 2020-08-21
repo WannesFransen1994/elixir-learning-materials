@@ -1,0 +1,3 @@
+<p>
+    <%= gettext "Students from UCLL are so great! They can make a website with %{framework} in English and Japanese!", framework: "Phoenix" %>
+</p>

@@ -1,0 +1,4 @@
+<p>
+  <%= gettext "Welcome to the world of %{language} and %{framework}!", 
+  language: "Elixir", framework: "Phoenix!" %>
+</p>

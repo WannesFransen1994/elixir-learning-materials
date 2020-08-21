@@ -1,0 +1,41 @@
+\section{Getting started with Ecto}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Ecto - the concepts}
+
+    \begin{itemize}
+        \item Repo module - Via the repository, we can create, update, destroy and query existing entries.
+        \item Schemas - used  to map data sources to Elixir structs.
+        \item Changesets - way to filter and cast external parameters, as well to validate changes before applying them
+        \item Query - queries written in Elixir syntax with specific DSL. Queries are by default secure, avoiding common problems. These can be created composable / piece by piece
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ecto SQL - not the same thing!}
+
+    \begin{itemize}
+        \item This provides functionality for working with SQL databases in Ecto
+        \item Migrations are an example of this
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{There's already a great guide for this}
+
+    \begin{itemize}
+        \item Database is up to you (MySQL might be the easiest)
+        \item Feel free to use generators such as:
+        \begin{verbatim}
+mix phx.gen.schema User users \ 
+name:string email:string \
+bio:string number_of_pets:integer
+        \end{verbatim}
+    \end{itemize}
+
+    \vfill
+
+    \href{https://hexdocs.pm/phoenix/ecto.html\#content}{[LINK]}
+\end{frame}

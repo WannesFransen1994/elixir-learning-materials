@@ -1,0 +1,91 @@
+\section{Project structure}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Basic mix project structure}   
+    \structure{Umbrella projects} \\
+    Instead of building a single large monolith, you can structure your code with multiple isolated contexts.
+    \begin{itemize}
+        \item poor man’s microservices solution
+        \item compiled and run under the same BEAM instance
+        \item Dependencies between applications must be explicitly defined
+        \item Degree of separation, not fully decoupled!
+    \end{itemize}
+    \vfill
+    \small
+    Different configurations in each application for the same dependency or use different dependency versions, then it is likely your codebase has grown beyond what umbrellas can provide.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sample generated project - umbrella structure}   
+    mix phx.new demo --umbrella --database mysql
+    \vfill
+    \begin{verbatim}
+    hello_umbrella
+    |-- _build
+    |-- apps
+    |   |-- hello               => domain application
+    |   |   |-- ...
+    |   |-- hello_web           => web application
+    |   |   |-- ...
+    |-- config                  => shared config
+    |-- deps
+    \end{verbatim} 
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sample generated project - domain structure}
+    \begin{verbatim}
+    hello
+    |-- lib
+    |   |-- hello
+    |   |   |-- foo_context     => context folder
+    |   |   |   |-- foo.ex      => foo-related modules
+    |   |   |-- foo_context.ex  => context module
+    |   |   |-- application.ex  => starts app processes
+    |   |   |-- repo.ex         => module for db operations
+    |   |   |-- ...
+    |   |-- hello.ex            => app interface
+    |-- priv
+    |   |-- repo
+    |   |   |-- migrations
+    |   |   |-- seeds.ex        => default data in your db
+    |   |   |-- ...
+    |-- test
+    |   |-- ...
+\end{verbatim} 
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Sample generated project - web structure}
+
+    \begin{verbatim}
+    hello_web
+    |-- controllers
+    |   |-- foo_controller.ex
+    |   |-- bar_controller.ex
+    |-- templates
+    |   |-- foo
+    |   |   |-- index.html.eex
+    |   |   |-- ...
+    |   |-- bar
+    |   |   |-- index.html.eex
+    |   |   |-- ...
+    |-- views
+    |   |-- foo_view.ex
+    |   |-- bar_view.ex
+    \end{verbatim} 
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{General guidelines}
+
+    \begin{itemize}
+        \item No domain code in controller
+        \item No direct usage of Repo in your web project
+        \item Controllers will use Contexts to communicate with your domain
+    \end{itemize}
+
+\end{frame}

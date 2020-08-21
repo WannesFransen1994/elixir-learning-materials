@@ -1,0 +1,13 @@
+{
+  "name": "hello_webpack",
+  "version": "1.0.0",
+  "main": "myjsfile.js",
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "build": "webpack -d"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-cli": "^3.3.11"
+  }
+}
