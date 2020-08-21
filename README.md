@@ -40,4 +40,12 @@ Any contribution to any of the mentioned learning materials is appreciated. Chec
 
 ## License
 
-We're still thinking about this... Right now the [no license](https://choosealicense.com/no-permission/) is applicable, but we want to choose a OSS license that fits our needs. We'll update this section later on.
+```txt
+Elixir learning materials (c) by Wannes Fransen
+
+Elixir learning materials is licensed under a
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).
+
+You should have received a copy of the license along with this
+work.  If not, see https://creativecommons.org/licenses/by-nc-sa/4.0/ .
+```
