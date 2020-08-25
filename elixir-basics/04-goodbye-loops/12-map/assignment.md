@@ -11,4 +11,4 @@ Write a function `Grades.to_code(grades)` that turns the list of grades `grades`
 Use `Enum.map` to solve this exercise.
 
 * First, translate each grade to its corresponding letter. This results in a list of one-lettered strings.
-* [Join](https://lmgtfy.com/?q=elixir+join+strings) these strings together to produce one single string.
+* Join these strings together to produce one single string.

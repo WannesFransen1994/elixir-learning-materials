@@ -59,7 +59,7 @@ You can of course also rely on lambdas:
 spawn( fn -> IO.puts("I pass the butter") end )
 ```
 
-This creates a new process whose [only purpose in life](https://youtu.be/X7HmltUWXgs?t=53) is to print "I pass the butter."
+This creates a new process whose only purpose in life is to print "I pass the butter."
 
 Add code that spawns two processes:
 
