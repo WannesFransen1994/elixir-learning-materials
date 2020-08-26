@@ -21,5 +21,5 @@ def greet(name):
 
 ## Task
 
-Write a function `Date.format(day, month, year)` that formats
+Write a function `DatePrinter.format(day, month, year)` that formats
 the date as "day-month-year".
