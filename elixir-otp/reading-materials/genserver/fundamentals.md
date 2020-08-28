@@ -256,7 +256,7 @@ When the caller, which is waiting for a message with the same identifier (that's
   end
 # ...
   def handle_call(:request_books, {_from_pid, _from_reference} = _from, state) do
-    {:reply, state.books, new_state}
+    {:reply, state.books, state}
   end
 ```
 

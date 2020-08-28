@@ -32,7 +32,7 @@ defmodule LibraryProcess do
   end
 
   def handle_call(:request_books, {_from_pid, _from_reference} = _from, state) do
-    {:reply, state.books, new_state}
+    {:reply, state.books, state}
   end
 
   def handle_cast({:add_book, book}, state) do
@@ -41,7 +41,7 @@ defmodule LibraryProcess do
     {:noreply, new_state}
   end
 
-  defp terminate(reason, state) do
+  def terminate(reason, state) do
     IO.puts("We stop because of reason #{reason}. Our final state is:")
     IO.inspect(state)
     :this_return_value_is_ignored
