@@ -1,0 +1,68 @@
+\documentclass{ucll-slides}
+\usepackage{pxfonts}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{ucll-code}
+\usepackage{xmpincl}
+\includexmp{license}
+
+
+\usetikzlibrary{calc,shadows,tikzmark}
+\beamertemplatenavigationsymbolsempty
+
+\coursename{elixir learning materials}
+\title{processes}
+
+\pgfkeys{
+  /envelope/.cd,
+  width/.initial=1cm,
+  height/.initial=0.8cm,
+  position/.initial={0,0},
+  value/.initial={},
+  value font/.initial={\ttfamily}
+}
+
+\tikzset{
+    note/.style={drop shadow,fill=green!50,inner sep=5mm},
+    note2/.style={drop shadow,fill=cyan!50,inner sep=5mm},
+    note arrow/.style={-latex,ultra thick}
+}
+
+\newcommand{\envelope}[1][1]{
+    {
+        \pgfkeys{/envelope/.cd,#1}
+        \pgfkeys{/envelope/width/.get=\envwidth}
+        \pgfkeys{/envelope/height/.get=\envheight}
+        \pgfkeys{/envelope/position/.get=\envposition}
+        \draw[fill=white] (\envposition) rectangle ++(\envwidth,\envheight);
+        \draw[fill=white] (\envposition) -- ++(\envwidth * 0.5,\envheight * 0.6) -- ++(\envwidth * 0.5,-\envheight * 0.6) -- cycle;
+        \draw[fill=white] ($ (\envposition) + (0,\envheight) $) -- ++(\envwidth * 0.5,-\envheight * 0.6) -- ++(\envwidth * 0.5,\envheight * 0.6) -- cycle;
+    }
+}
+
+\newcommand{\csharp}{C$^\sharp$}
+
+\newcommand{\codeunderlinex}[2][]{
+  \codeunderline[name center=#2,#1]{#21}{#22}
+}
+
+\newcommand{\codeoverlinex}[2][]{
+  \codeoverline[name center=#2,#1]{#21}{#22}
+}
+
+\begin{document}
+
+\maketitle
+
+\input{aux-general-info.tex}
+\input{aux-os-refresher}
+\input{aux-processes}
+\input{aux-internals}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,66 @@
+\section{Internals}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Elixir Processes}
+    \structure{Other Languages}
+    \begin{itemize}
+        \item Use threads sparingly
+        \item Thread creation is costly affair
+        \item Mitigated by using thread pools
+        \item Synchronization required
+        \item No language support
+    \end{itemize}
+    \vskip5mm
+    \structure{Elixir}
+    \begin{itemize}
+        \item Create as many processes as you want
+        \item No synchronization problems
+        \item Processes are cheap
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Internals}
+    \begin{center}
+        \begin{tikzpicture}[scale=0.9,transform shape,
+                os process/.style={drop shadow,fill=red!50},
+                os process header/.style={opacity=0.5,font=\huge\sc},
+                os thread/.style={drop shadow,fill=blue!50},
+                os thread header/.style={opacity=0.5,font=\large\sc},
+                elixir process/.style={drop shadow,fill=green!50}]
+            \draw[os process] (0,0) rectangle (10, 8);
+            \node[os process header,anchor=north] at (5,8) {os process};
+
+            \foreach \x/\y in {0.5/0.5,5.5/0.5,0.5/4,5.5/4} {
+                    \coordinate (p) at (\x,\y);
+                    \draw[os thread] (p) rectangle ++(4, 3);
+                    \node[os thread header,anchor=north] at ($ (p) + (2,3) $) {os thread};
+
+                    \foreach[evaluate={\i*0.5-0.25} as \dx] \i in {1,...,8} {
+                            \foreach[evaluate={\j*0.5-0.2} as \dy] \j in {1,...,5} {
+                                    \draw[elixir process] (\x+\dx,\y+\dy) circle[radius=0.1cm];
+                                }
+                        }
+                }
+
+            \only<1>{
+                \node[note] at (5,4) {
+                    Each dot = Elixir process
+                };
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Internals}
+    \begin{itemize}
+        \item BEAM Virtual Machine lives in single OS process
+        \item It creates $N$ threads on a machine with $N$ cores
+        \item Each threads runs a scheduler
+        \item Processes are distributed among these schedulers
+        \item Schedulers determine which processes runs
+    \end{itemize}
+\end{frame}

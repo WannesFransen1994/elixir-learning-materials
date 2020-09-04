@@ -1,0 +1,180 @@
+\section{Elixir Processes}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Warning}
+    \begin{itemize}
+        \item Elixir abstracts away OS concepts such as processes and threads
+        \item It can still be useful to know how exactly Elixir concepts map on OS concepts
+        \item {\bfseries\color{red} Elixir reuses same terms but assigns different meaning!}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Elixir Processes}
+    \code[language=elixir]{hello-world.exs}
+    \begin{itemize}
+        \item In other language
+              \begin{itemize}
+                  \item A \emph{thread} executes this line of code
+                  \item After this, the thread ends
+              \end{itemize}
+        \item In Elixir
+              \begin{itemize}
+                  \item A \emph{process} executes this line of code
+                  \item After this, the process ends
+              \end{itemize}
+        \item Only difference: terminology
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Thread Creation in \csharp}
+    \code[language=csharp,font=\small,width=.95\linewidth]{create-thread.cs}
+    \begin{itemize}
+        \item New thread needs entry point
+        \item Constructor is given function
+        \item Thread will call \texttt{ThreadProc}
+        \item Thread dies when \texttt{ThreadProc} is done
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Process Creation in Elixir}
+    \code[language=elixir,font=\small,width=.95\linewidth]{spawn-process.exs}
+    \begin{itemize}
+        \item New process needs entry point
+        \item \texttt{spawn} is given function
+        \item Process will call \texttt{thread\_func}
+        \item Process dies when \texttt{thread\_func} is done
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{So What's The Big Deal?}
+    \begin{itemize}
+        \item Difference between Elixir and \csharp?
+        \item Currently limited to aesthetics
+        \item What's up with that, Elixir? Why do you even exist?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Communication Between Threads in \csharp}
+    \code[language=csharp,font=\small,width=.95\linewidth]{communication.cs}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Communication Between Processes in Elixir}
+    \begin{center}
+        \Huge ...
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Communication Between Processes in Elixir}
+    \begin{itemize}
+        \item Elixir is purely functional
+        \item There is no state
+        \item A newborn process can receive data, but it never changes
+        \item Communication is in essence change
+        \item There is no way to communicate without state
+        \item Are we in trouble?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Communication Between Processes in Elixir}
+    \begin{itemize}
+        \item Elixir introduces a tiny bit of state
+        \item It's fully handled internally by Elixir
+        \item No need for synchronization due to shared state
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Message Passing}
+    \begin{center}
+        \begin{tikzpicture}[process/.style={drop shadow,fill=red!50},
+                process header/.style={black,opacity=0.5},
+                mailbox/.style={drop shadow,fill=blue!50}]
+            \begin{scope}
+                \coordinate (process a center) at (2,2.5);
+                \coordinate (process a queue) at (0.25,-0.25);
+                \draw[process] (0,0) rectangle ++(4,5);
+                \node[process header,minimum width=4cm,anchor=north west] at (0,5) { Process A };
+                \draw[mailbox] (0.5,-0.5) rectangle ++(3,1);
+            \end{scope}
+
+            \begin{scope}[xshift=4.5cm]
+                \coordinate (process b center) at (2,2.5);
+                \coordinate (process b queue) at (0.75,-0.4);
+                \draw[process] (0,0) rectangle ++(4,5);
+                \node[process header,minimum width=4cm,anchor=north west] at (0,5) { Process B };
+                \draw[mailbox] (0.5,-0.5) rectangle ++(3,1);
+            \end{scope}
+
+            \only<2>{
+                \node[font=\tt] (send) at (process a center) {
+                    send(B, :hello)
+                };
+
+                \envelope[position=process b queue]
+
+                \draw[-latex,ultra thick] (send) -- ($ (process b queue) + (0,0.4) $);
+            }
+
+            \only<3>{
+                \node[font=\tt] (receive) at (process b center) {
+                    receive
+                };
+
+                \envelope[position=process b queue]
+                \draw[-latex,ultra thick] ($ (process b queue) + (0.5,0.4) $) -- (receive);
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Message Passing}
+    \code[language=elixir,font=\small]{message-passing.exs}
+    \begin{tikzpicture}[overlay,remember picture]
+
+        \only<2>{
+            \codeunderlinex{receive}
+            \node[note2,anchor=north west] (note) at ($ (receive) + (0,-0.75) $) {
+                \texttt{receive} waits indefinitely for a message};
+            \draw[note arrow] (note) -- (receive);
+        }
+        \only<3>{
+            \codeoverlinex{timeout}
+            \node[note2,anchor=south west] (note) at ($ (timeout) + (0,0.75) $) {
+                \parbox{8cm}{
+                    Don't wait indefinitely but execute after 1ms
+                }
+            };
+            \draw[note arrow] (note) -- (timeout);
+        }
+        \only<4>{
+            \codeunderlinex{child}
+            \codeoverlinex{rec}
+            \node[note2,anchor=north west] (note) at ($ (child) + (0,-0.5) $) {
+                Loop goes on and on.
+            };
+            \draw[note arrow] (note) -- (child);
+            \draw[note arrow] (note) -- (rec);
+        }
+        \only<5>{
+            \codeoverlinex{send}
+            \node[note,anchor=south west] (note) at ($ (send1) + (0,0.75) $) {Tells child process we arrived.};
+            \draw[note arrow] (note) -- (send);
+        }
+        \only<6>{
+            \codeunderlinex{receive}
+            \node[note2,anchor=north west] (note) at ($ (receive) + (0,-0.75) $) {It finds an \texttt{:arrive} message!};
+            \draw[note arrow] (note) -- (receive);
+        }
+    \end{tikzpicture}
+\end{frame}
