@@ -1,0 +1,40 @@
+\section{Unlinked processes}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{3 processes (\texttt{\&spawn/1})}
+    \begin{center}
+        \begin{tikzpicture}
+            \coordinate (process A position) at (0,0);
+            \coordinate (process B position) at ($ (process A position) + (2,0) $);
+            \coordinate (process C position) at ($ (process B position) + (2,0) $);
+            \path[use as bounding box] ($ (process A position) + (-1,-1) $) rectangle ($ (process C position) + (1,1) $);
+
+            \node[process] at (process A position) {A};
+            \only<1>{
+                \node[process] at (process B position) {B};
+            }
+            \only<2>{
+                \node[dead process] at (process B position) {B};
+            }
+            \node[process] at (process C position) {C};
+        \end{tikzpicture}
+    \end{center}
+    \begin{overprint}
+        \onslide<1>
+        \begin{center}
+            Three unlinked processes spawned
+        \end{center}
+
+        \onslide<2>
+        \begin{center}
+            Process B dies
+        \end{center}
+
+        \onslide<3>
+        \begin{center}
+            Process A and C keeps going
+        \end{center}
+    \end{overprint}
+\end{frame}

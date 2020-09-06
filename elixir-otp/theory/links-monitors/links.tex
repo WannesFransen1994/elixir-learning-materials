@@ -1,0 +1,30 @@
+\documentclass{ucll-slides}
+\usepackage{pxfonts}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{ucll-code}
+\usepackage{xmpincl}
+\includexmp{license}
+
+
+\usetikzlibrary{calc}
+
+\coursename{Elixir Learning Materials}
+\title{links and monitors}
+
+\tikzset{
+    process/.style={circle, draw=green!60, fill=green!12, very thick, minimum size=7mm},
+    dead process/.style={draw,cross out}
+}
+
+\begin{document}
+
+\maketitle
+
+\input{aux-license.tex}
+\input{aux-demo-code.tex}
+\input{aux-unlinked.tex}
+\input{aux-monitors.tex}
+\input{aux-linked.tex}
+
+\end{document}

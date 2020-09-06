@@ -1,0 +1,72 @@
+\section{Linked processes}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Chain of echoes: extra code}
+    \begin{center}
+        \code[language=elixir,font=\small]{demo-code/module_extra_2.ex}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3 processes (\texttt{\&spawn/1})}
+    \begin{center}
+        \begin{tikzpicture}
+            \coordinate (process A position) at (0,0);
+            \coordinate (process B position) at (2,0);
+            \coordinate (process C position) at (4,0);
+
+            \only<1-3>{
+                \node[process] (process A) at (process A position) {A};
+                \node[process] (process C) at (process C position) {C};
+            }
+            \only<4>{
+                \node[dead process] (process A) at (process A position) {A};
+                \node[dead process] (process C) at (process C position) {C};
+            }
+
+            \only<1-2>{
+                \node[process] (process B) at (process B position) {B};
+            }
+            \only<3-4>{
+                \node[dead process] (process B) at (process B position) {B};
+            }
+
+            \draw[-latex] (process A) -- (process B);
+            \draw[-latex] (process B) -- (process C);
+        \end{tikzpicture}
+    \end{center}
+    \vskip5mm
+    \begin{overprint}
+        \onslide<1>
+        \begin{center}
+            Process A and B initiates link
+        \end{center}
+        \vskip4mm
+        \code[language=elixir,font=\small,width=.95\linewidth]{demo-code/linking.exs}
+
+        \onslide<2>
+        \begin{center}
+            Processes are now linked \textbf{bidirectionally}
+        \end{center}
+
+        \onslide<3>
+        \begin{center}
+            Process B dies
+        \end{center}
+
+        \onslide<4>
+        Process A and C receive a ''death message`` and if it is not a trapping exits process, no custom behaviour can be implemented when this message is received.
+        \vfill
+        \textit{Note: Even if it is a trapping exits process, the end result should also be death.
+            This is often used when you want to do certain actions, such as cleaning up your process.}
+    \end{overprint}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Trapping exits}
+    \begin{center}
+        \code[language=elixir,font=\small]{demo-code/trapping_exits.exs}
+    \end{center}
+\end{frame}
