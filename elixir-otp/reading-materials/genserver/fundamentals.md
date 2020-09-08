@@ -269,7 +269,7 @@ Here we use the reply tuple. It is possible to not send a reply immediately, but
 This is just to understand the fundamentals of a GenServer, which most often of the time should suffice. Though more complex use cases will appear. Here are some extra reading materials to boost your GenServer skills:
 
 * [why init is blocking](./blocking_init.md)
-* [`handle_continue` since Elixir v1.7 \[TODO\]](./handle_continue.md)
-* [periodic work with handle_info \[TODO\]](./periodic_work.md)
+* [`handle_continue` since Elixir v1.7](./handle_continue.md)
+* [periodic work with handle_info](./periodic_work.md)
 * [non-immediate replies with tasks \[TODO\]](./non-immediate_replies.md) _Note: you need to understand supervisors and tasks._
 * [How you get a GenServer that uses huge amounts of RAM without hibernate \[TODO\]](./hibernate.md)
