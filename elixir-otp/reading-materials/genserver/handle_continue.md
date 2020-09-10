@@ -135,7 +135,6 @@ defmodule Demonstration do
   def start_link(args \\ []), do: GenServer.start_link(@me, args, name: @me)
 
   def init(_args) do
-    send(self(), :initialize_state)
     {:ok, :not_initialized_state, {:continue, :initialize_state}}
   end
 
