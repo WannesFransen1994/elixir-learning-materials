@@ -1,0 +1,52 @@
+
+
+\section{Exceptions \& Errors}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Fundamentals of an exception}
+    What is an exception?
+    \begin{itemize}
+        \item Exceptional behaviour that is abnormal
+        \item Causes the current operation / process to crash
+    \end{itemize}
+
+    \vfill
+
+    Examples
+    \begin{itemize}
+        \item HTTP request
+        \item DB: Record locking (during insert)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Programming styles to counter this}
+    \begin{itemize}
+        \item Total programming (program for all scenarios)
+        \item Nominal programming (uses preconditions - cannot run outside nominal conditions)
+        \item Defensive programming (use of exceptions)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Let it crash (offensive programming)}
+    \begin{itemize}
+        \item Fail fast
+        \item Only write code for the happy path
+        \item Failures are completely isolated
+        \item With try/catch, what about abnormal states?
+        \item Restarting is often quicker than huge try/catch blocks
+        \item Not always applicable
+    \end{itemize}
+
+    \vfill
+
+    \tiny
+    Excellent
+    \href{https://elixirforum.com/t/understanding-the-advantages-of-let-it-crash-term/9748/19?u=wfransen}{forum post}
+    from Sasa Juric and a
+    \href{https://elixirforum.com/t/understanding-the-advantages-of-let-it-crash-term/9748/21?u=wfransen}{video}
+    from Joe Armstrong
+\end{frame}
