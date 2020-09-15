@@ -2,6 +2,12 @@
 
 Now that we can manage our buildings, it is time to add some kind of backup functionality. Imagine having hundreds of rooms, you don't want to insert that manually every time right?
 
+In order to be able to make this exercise, it is recommended to read:
+
+* [Why GenServer its init is blocking](/elixir-otp/reading-materials/genserver/02_blocking_init.md)
+* [How `handle_continue` is a solution](/elixir-otp/reading-materials/genserver/03_handle_continue.md)
+* [How processes can achieve periodic work](/elixir-otp/reading-materials/genserver/04_periodic_work.md)
+
 ## Task 1
 
 The `BuildingManager` process will take a backup every 10 seconds, which will be stored in csv format and look like:

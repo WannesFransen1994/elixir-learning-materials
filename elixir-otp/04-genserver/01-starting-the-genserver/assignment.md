@@ -1,6 +1,6 @@
 # Assignment
 
-In order to get started with GenServer, we need to know what the utmost basics are. We'll make a simple process that manages the rooms in a building. Read the [GenServer reading materials](/elixir-otp/reading-materials/genserver/genserver.md) first.
+In order to get started with GenServer, we need to know what the utmost basics are. We'll make a simple process that manages the rooms in a building. Read the [GenServer reading materials](/elixir-otp/reading-materials/genserver/01_fundamentals.md) first.
 
 ## Task 1
 

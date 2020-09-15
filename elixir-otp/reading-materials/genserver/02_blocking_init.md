@@ -85,32 +85,17 @@ This is quite a lot of code, but let us take it step by step. The first 2 functi
 
 The `do_start` function will format the provided arguments to the required argument notation that Erlang its API exposes. To put it simply, Elixir provides a nice, clean, obvious syntax wrapper to Erlang its overwhelming API with nice and clear documentation. _(No offense or rudeness intended at all towards the Erlang programming language.)_
 
-The `case` macro beneath that is for the name registration. It'll detect whether name registration is necessary and format the parameters / tuples so that Erlang understands what you're trying to do. Next up is some Erlang code. Don't worry, you don't need to be an Erlang programmer to understand the next part.
+The `case` macro beneath that is for the name registration. It'll detect whether name registration is necessary and format the parameters / tuples so that Erlang understands what you're trying to do.
 
-### Erlang its gen_server.erl
+Do note that Elixir its `GenServer` module does __not__ call Erlang its `gen_server`, __but its `gen` module directly!__ Though it does pass the `gen_server` module as callback information. That's because the actual abstraction of the genserver-related behaviours are there. _Tip: Look at the sequence diagram at the end of this file_
 
-Now that we know what function is called on the erlang `gen_server` module, we can take a look at what it does. Below you'll find 4 functions, one for the `start` and `start_link` function. Depending on the # of arguments, it'll make a linked process or a non-linked process.
+Next up is some Erlang code. Don't worry, you don't need to be an Erlang programmer to understand the next part.
 
-```erlang
-% gen_server.erl
-start(Mod, Args, Options) ->
-    gen:start(?MODULE, nolink, Mod, Args, Options).
+### Erlang its gen.erl - starting a process
 
-start(Name, Mod, Args, Options) ->
-    gen:start(?MODULE, nolink, Name, Mod, Args, Options).
+This Erlang module abstracts away the really generic stuff of the generic standard behaviours. Let us take a look at how we some parts look like. First we'll look at how it starts a process.
 
-start_link(Mod, Args, Options) ->
-    gen:start(?MODULE, link, Mod, Args, Options).
-
-start_link(Name, Mod, Args, Options) ->
-    gen:start(?MODULE, link, Name, Mod, Args, Options).
-```
-
-Here we see that another erlang module is called. This is because some process-spawning related behaviours are really common and are also used in e.g. gen_fsm, but don't worry about that. We won't cover that.
-
-_Note: `?MODULE` is a predefined macro which is similar to Elixir its `__MODULE__`._
-
-We will take a quick peek at what `:gen.start` does though:
+_Note: `?MODULE` is the same as Elixir its `__MODULE__`_
 
 ```erlang
 % gen.erl
@@ -122,24 +107,27 @@ do_spawn(GenMod, link, Mod, Args, Options) ->
     proc_lib:start_link(?MODULE, init_it,
             [GenMod, self(), self(), Mod, Args, Options],
             Time, spawn_opts(Options));
-    monitor_return(Ret);
 do_spawn(GenMod, _, Mod, Args, Options) ->
     Time = timeout(Options),
-    proc_lib:start(?MODULE, init_it,
+   proc_lib:start(?MODULE, init_it,
             [GenMod, self(), self, Mod, Args, Options],
             Time, spawn_opts(Options)).
 ```
 
-Now it is getting really complex, but don't worry! No need to panic, we'll only look at 3-4 lines of code here. First of all, we can see that when the `start` function is called, internally the `do_spawn` function is executed. In this function, `:proc_lib.start` is executed.
+We can see that when the `start` function is called, internally the `do_spawn` function is executed. In this function, `:proc_lib.start` or `:proc_lib.start_link` is executed.
 
-When you look at the arguments that are given to proc lib, we see that the current module (`?MODULE`) and the `init_it` function is given. This is a callback function which needs to be completed. Let us go one level deeper into the proc_lib library and take a look at its `start_link` function:
+### Erlang proc_lib - starting a process
+
+When you look at the arguments that are given in `gen.erl` to proc lib, we see that the current module (`?MODULE`) and the `init_it` function is given. This is a callback function which needs to be completed. Let us go one level deeper into the proc_lib library and take a look at its `start_link` function:
 
 ```erlang
 % proc_lib.erl
 start_link(M,F,A,Timeout,SpawnOpts) when is_atom(M), is_atom(F), is_list(A) ->
     % ignoring overwhelming code
     % Note: Feel free to assume that spawn_opt is the same as :erlang.spawn
-    sync_start_link(?MODULE:spawn_opt(M, F, A, [link|SpawnOpts]), Timeout).
+    %   + rewrote it a little bit to make it more readable
+    SpawnedPid = ?MODULE:spawn_opt(M, F, A, [link|SpawnOpts]),
+    sync_start_link(SpawnedPid, Timeout).
 
 sync_start_link(Pid, Timeout) ->
     receive
@@ -153,9 +141,11 @@ sync_start_link(Pid, Timeout) ->
     end.
 ```
 
-Here we can finally see that we spawn the process with the `gen` module and `init_it` function as a parameter. Which means that the newly spawned process will execute this function. There are still some things that are abstract, but let us just assume that this process, the caller process who just created the new process, expects a  `{ack, pid, return}` message that basically says "Hey you, I started up without any problems!".
+Here we can finally see that we spawn the process. Keep in mind that the function is called with the `gen` module and `:init_it` callback function as parameters. Which means that the newly spawned process will execute this function. There are still some things that are abstract, but let us just assume that this process, the caller process who just created the new process, expects a  `{ack, pid, return}` message that basically says "Hey you, I started up without any problems!".
 
-_Note: It will not yet execute YourModule init function! This is the `init` function of our `gen.erl` module._
+_Note: It will not yet execute YourModule init function! This is the `init_it` function of our `gen.erl` module._
+
+### New process: `gen.erl` its `init_it` callback function
 
 Now that we know that the process is created, let us go back to the `gen.erl` module where the __newly created process will execute__ the `init_it/6` function:
 
@@ -176,7 +166,11 @@ init_it2(GenMod, Starter, Parent, Name, Mod, Args, Options) ->
     GenMod:init_it(Starter, Parent, Name, Mod, Args, Options).
 ```
 
-Here we can see that the newly spawned process will execute `init_it`, which will internally execute the `init2` function. This will once again call the overlying module its `init` function (in this case `gen_server.erl`).
+Here we can see that the newly spawned process will execute `init_it`, which will internally execute the `init2` function. This will once again call the previously passed `genserver` module its `init` function.
+
+### New process: `gen_server.erl` its `init_it` callback function
+
+We are finally in our Erlang its `gen_server` module. Do you remember how? Elixir its `GenServer` module passed this directly to our `gen` module. Now our newly spawned process will finally execute this code! In `:gen.init__it2` the `gen_server` its `init_it` function is called directly. Let us look at what is happening there:
 
 ```erlang
 % gen_server.erl
@@ -229,27 +223,6 @@ Phew. That was a long trip. Now we understand why exactly an `init` call is bloc
 
 ## Overview init code execution
 
-```text
-# [CALLER]
-GenServer.start_link
-  => Erlang :gen_server.start
-    => Erlang :gen.start
-      => Erlang :proc_lib.start
-      => Erlang sync_start_link => wait for message from spawned process
-
-# [Newly spawned process]
-Comes to life thanks to the caller, has to execute the hardcoded init function in gen.erl
-=> Erlang :gen.init
-# Fun fact: in the above function, name registration occurs
-  => Erlang :gen_server.init_it/6 => case function that calls :gen_server.init_it/2
-    => YourModule.init callback which returns e.g. {:ok, init_state}
-  => inside the Erlang :gen_server.init_it/6 case function does the following (depending on match):
-  => execute :proc_lib.init_ack => sends ACK message to caller function
-  => receive messages in loop
-
-# [CALLER]
-RECEIVES ACK, returns "Return" pattern matched value in receive statement (cfr. proc_lib.erl sync_start_link function)
-sends return value all the way "back up" to our Elixir GenServer.start_link
-```
+![Sequence diagram of why init is blocking](./images/genserver_init_blocking.png)
 
 Next up, you definitely should read why [`handle_continue`](./handle_continue.md) is interesting, if not an absolute necessity in some situations!
