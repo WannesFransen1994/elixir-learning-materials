@@ -1,0 +1,143 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ucll-code}[2016/02/07]
+
+\RequirePackage{pgfkeys}
+\RequirePackage{listings}
+
+\usetikzlibrary{tikzmark}
+
+\lstset{
+  frame=lines,
+  escapeinside=\`\`,
+  basicstyle=\ttfamily,
+  commentstyle=\color{green!50!black},
+  showstringspaces=false,
+  classoffset=0,
+  keywordstyle=\color{blue}\bfseries,
+  classoffset=1,
+  keywordstyle=\color{darkgray}\bfseries,
+  classoffset=0,
+  numberstyle={\sffamily\tiny}
+}
+
+\lstdefinelanguage{python3}{
+  keywords={False,class,finally,is,return,None,continue,for,lambda,try,True,def,from,nonlocal,while,and,del,global,not,with,as,elif,if,or,yield,assert,else,import,pass,break,except,in,raise},
+  comment=[l]{\#},
+  stringstyle=\color{purple},
+  morestring=[b]",
+  morestring=[b]',
+}
+
+
+\lstdefinelanguage{csharp}[Sharp]{C}{
+  morekeywords={var,partial,abstract,as,base,byte,catch,checked,class,const,decimal,default,delegate,do,double,else,enum,event,explicit,extern,false,finally,fixed,float,foreach,implicit,in,interface,internal,is,lock,long,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,sbyte,sealed,stackalloc,static,string,this,throw,true,try,typeof,uint,ulong,unchecked,unsafe,ushort,using,virtual,volatile,where},
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{black}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+}
+
+\lstdefinelanguage{c++14}{
+  language=c++,
+  morekeywords={override,constexpr,decltype,thread_local,noexcept,nullptr,static_assert,alignof,alignas,in}
+}
+
+\lstdefinelanguage{sdl}{
+  morekeywords={push,pop,sphere,square,ambient,diffuse,specular,reflectivity,transparence,refractiveIndex,background,light,translate,scale,rotateX,rotateY,rotateZ},
+  identifierstyle=\color{black},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+}
+
+\lstdefinelanguage{elixir}{
+  morekeywords={def,defp,defmodule,true,false,nil,when,and,not,or,in,fn,do,end,catch,rescue,after,else,if,spawn,send,receive},
+  identifierstyle=\color{black},
+  sensitive=true,
+  comment=[l]{\#},
+}
+
+
+% Code formatting
+\pgfkeys{
+  /ucll/code/.cd,
+  frame/.code=\lstset{frame=#1},
+  font/.code=\lstset{basicstyle={\ttfamily #1}},
+  width/.initial=.8\linewidth,
+  language/.code=\lstset{language=#1},
+  show line numbers/.code=\lstset{numbers=#1},
+  show line numbers/.default=left,
+  title/.code=\lstset{title=#1},
+  @first line/.initial=1,
+  first line/.style={@first line=#1},
+  extra keywords/.code=\lstset{morekeywords=#1},
+}
+
+% \code[pgfkeys]{filename}
+\newcommand{\code}[2][]{
+  {
+    \pgfkeys{/ucll/code/.cd,#1}
+    \begin{center}
+      \pgfkeys{
+        /ucll/code/width/.get=\code@width,
+        /ucll/code/@first line/.get=\code@firstline,
+      }
+      \begin{minipage}{\code@width}
+        \lstinputlisting[firstline=\code@firstline]{#2}
+      \end{minipage}
+    \end{center}
+  }
+}
+
+% Node in code
+\newcommand{\cnode}[1]{\tikz[remember picture,overlay] \node[inner sep=0mm] (#1) {};}
+
+\pgfkeys{
+  /ucll/code/underline/.cd,
+  stroke/.style={red,thick},
+  vertical offset/.initial=0.1,
+  name center/.initial=center,
+}
+
+\newcommand{\codeunderline}[3][]{{
+    \pgfkeys{
+      /ucll/code/underline/.cd,
+      #1,
+      /ucll/code/underline/vertical offset/.get=\code@underline@verticaloffset,
+      /ucll/code/underline/name center/.get=\code@underline@centername,
+    }
+    \draw[/ucll/code/underline/stroke]%
+    (#2) --%
+    ++(0,-\code@underline@verticaloffset) --%
+    ($ (#3) + (0,-\code@underline@verticaloffset) $) --%
+    ++(0,\code@underline@verticaloffset);
+    \coordinate (\code@underline@centername) at ($ (#2) ! 0.5 ! (#3) + (0,-\code@underline@verticaloffset) $);
+}}
+
+\pgfkeys{
+  /ucll/code/overline/.cd,
+  stroke/.style={red,thick},
+  vertical offset/.initial=0.1,
+  vertical shift/.initial=0.2,
+  name center/.initial=center,
+}
+
+\newcommand{\codeoverline}[3][]{{
+    \pgfkeys{
+      /ucll/code/overline/.cd,
+      #1,
+      /ucll/code/overline/vertical offset/.get=\code@overline@verticaloffset,
+      /ucll/code/overline/vertical shift/.get=\code@overline@verticalshift,
+      /ucll/code/overline/name center/.get=\code@overline@centername,
+    }
+    \draw[/ucll/code/overline/stroke]%
+      ($ (#2) + (0,\code@overline@verticalshift) $) --%
+      ++(0,\code@overline@verticaloffset) --%
+      ($ (#3) + (0,\code@overline@verticaloffset) + (0,\code@overline@verticalshift) $) --%
+      ++(0,-\code@overline@verticaloffset);%
+    \coordinate (\code@overline@centername) at ($ (#2) ! 0.5 ! (#3) + (0,\code@overline@verticaloffset) + (0,\code@overline@verticalshift) $);
+}}

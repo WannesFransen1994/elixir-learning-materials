@@ -1,0 +1,47 @@
+\section{Determining Length}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Problem Statement}
+    \begin{center}\ttfamily
+        len([1,2,3,4,5,6,7]) \\[4mm]
+        $\downarrow$ \\[4mm]
+        7
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Length of Array}
+    \begin{itemize}
+        \item Array must keep track of  length
+        \item Computing length is immediate
+        \item $O(1)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Length of Linked List}
+    \begin{center}
+        \begin{tikzpicture}[link/.style={thick,-latex}]
+            \path[use as bounding box] (0,0) rectangle (10,1);
+
+            \foreach[count=\i] \x in {0,1.5,...,10} {
+                \coordinate (p\i) at (\x,0);
+                \llnode[position={p\i},size=0.5cm]
+            }
+
+            \foreach[count=\i] \x in {0,1.5,...,8} {
+                \draw[-latex] ($ (p\i) + (0.75,0.25) $) to[bend left=45] ++(0.75,0.251);
+            }
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \structure{Algorithm}
+    \begin{itemize}
+        \item Follow nodes until we find \texttt{null}
+        \item Count number of jumps necessary
+        \item Takes longer for longer lists
+        \item $O(n)$
+    \end{itemize}
+\end{frame}

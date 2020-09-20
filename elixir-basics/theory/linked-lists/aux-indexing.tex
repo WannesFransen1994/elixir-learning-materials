@@ -1,0 +1,69 @@
+\section{Indexing}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Problem Statement}
+    \begin{center}\ttfamily
+        [1, 2, 3, 4, 5, 6][3] \\[4mm]
+        $\downarrow$ \\[4mm]
+        4
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Indexing Array}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thick] (0,0) grid (6,1);
+            \foreach[evaluate={int(\x+1)} as \i] \x in {0,...,5} {
+                \node[font=\ttfamily] at ($ (\x,0.5) + (0.5,0) $) {\i};
+            }
+            \draw[thick] (0,0) -- ++(0,-0.5);
+            \node[anchor=north,font=\ttfamily\tiny] at (0,-0.5) {start};
+            \draw[|-latex] (0,-.25) -- ++(3,0) node[midway,below,font=\tiny\ttfamily] {index * sizeof(T)};
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \structure{Algorithm}
+    \begin{itemize}
+        \item Memory location can be computed in a single step
+        \item \texttt{location = start + index * sizeof(T)}
+        \item Direct CPU support: only 1 instruction required
+        \item Explains zero-indexing
+        \item $O(1)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Indexing Linked List}
+    \begin{center}
+        \begin{tikzpicture}[link/.style={thick,-latex}]
+            \path[use as bounding box] (0,0) rectangle (10,3);
+            \coordinate (p1) at (0,0);
+            \coordinate (p2) at (2,2);
+            \coordinate (p4) at (4,1);
+            \coordinate (p3) at (6,1);
+            \coordinate (p5) at (8,2);
+            \coordinate (p6) at (7,0);
+
+            \foreach \i in {1,...,6} {
+                \llnode[position={p\i},size=0.5cm,value=\i]
+            }
+
+            \draw[-latex] ($ (p1) + (0.75,0.25) $) to[bend right=30] (p2);
+            \draw[-latex] ($ (p2) + (0.75,0.25) $) to[bend left=30] ($ (p3) + (0,0.5) $);
+            \draw[-latex] ($ (p3) + (0.75,0.25) $) to[bend left=45] ($ (p4) + (1,0) $);
+            \draw[-latex] ($ (p4) + (0.75,0.25) $) to[bend left=45] ($ (p5) + (0,0.25) $);
+            \draw[-latex] ($ (p5) + (0.75,0.25) $) to[bend left=45] ($ (p6) + (1,0.5) $);
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \structure{Algorithm}
+    \begin{itemize}
+        \item Nodes are scattered unpredictably across memory
+        \item Follow \texttt{Next} until \texttt{Next == null}
+        \item Finding \texttt{n}th element takes \texttt{n} jumps
+        \item $O(n)$
+    \end{itemize}
+\end{frame}

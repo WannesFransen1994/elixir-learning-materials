@@ -1,0 +1,88 @@
+\section{Memory Layout}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Arrays}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[help lines] (-2,0) grid (8,1);
+            \draw[thick] (0,0) grid (6,1);
+            \foreach \x in {0,...,5} {
+                \node[font=\tiny] at ($ (\x,0.5) + (0.5,0) $) { \texttt{xs[\x]} };
+            }
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \begin{itemize}
+        \item One piece of contiguous memory
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Arrays}
+    \code[language=c++14]{array.cpp}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Linked Lists}
+    \begin{center}
+        \begin{tikzpicture}[link/.style={thick,-latex},scale=0.8,transform shape]
+            \coordinate (p1) at (1,2);
+            \coordinate (p2) at (4,3);
+            \coordinate (p3) at (2,0);
+            \coordinate (p4) at (5,0);
+            \coordinate (p5) at (8,1);
+
+            \draw[help lines] (0,0) grid (10,4);
+            \foreach[evaluate={int(\i-1)} as \j] \i in {1,...,5} {
+                \llnode[position={p\i},value={xs[\j]},value font=\ttfamily\small]
+            }
+
+            \draw[link] ($ (p1) + (1.5, 0.5) $) -- ($ (p2) $);
+            \draw[link] ($ (p2) + (1.5, 0.5) $) -- ($ (p3) + (0,1) $);
+            \draw[link] ($ (p3) + (1.5, 0.5) $) -- ($ (p4) + (0,0.5) $);
+            \draw[link] ($ (p4) + (1.5, 0.5) $) -- ($ (p5) $);
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \begin{itemize}
+        \item List consists of series of nodes
+        \item Each node has two fields
+              \begin{itemize}
+                \item Item
+                \item Reference to next node
+              \end{itemize}
+        \item Nodes scattered across memory
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Linked Lists in Code}
+    \code[language=csharp]{LinkedList.cs}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Creating a Linked List}
+    \begin{center}
+        \begin{tikzpicture}[link/.style={thick,-latex},scale=0.8,transform shape]
+            \coordinate (p1) at (1,2);
+            \coordinate (p2) at (4,3);
+            \coordinate (p3) at (2,0);
+            \coordinate (p4) at (5,0);
+            \coordinate (p5) at (8,1);
+
+            \draw[help lines] (0,0) grid (10,4);
+            \foreach \i in {1,...,5} {
+                \llnode[position=p\i,value=\i]
+            }
+
+            \draw[link] ($ (p1) + (1.5, 0.5) $) -- ($ (p2) $);
+            \draw[link] ($ (p2) + (1.5, 0.5) $) -- ($ (p3) + (0,1) $);
+            \draw[link] ($ (p3) + (1.5, 0.5) $) -- ($ (p4) + (0,0.5) $);
+            \draw[link] ($ (p4) + (1.5, 0.5) $) -- ($ (p5) $);
+        \end{tikzpicture}
+    \end{center}
+    \vskip4mm
+    \code[language=csharp]{LinkedListCreation.cs}
+\end{frame}

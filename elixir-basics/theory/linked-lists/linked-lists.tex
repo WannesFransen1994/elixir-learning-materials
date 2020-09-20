@@ -1,0 +1,58 @@
+\documentclass{ucll-slides}
+\usepackage{pxfonts}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{ucll-code}
+
+
+\usetikzlibrary{calc,shadows,tikzmark}
+
+\coursename{Elixir Learning Materials}
+\title{linked lists and arrays}
+
+
+
+\pgfkeys{
+  /custom/.cd,
+  width/.initial=1cm,
+  height/.initial=1cm,
+  position/.initial={0,0},
+  size/.style={width=#1,height=#1},
+  value/.initial={},
+  value font/.initial={\ttfamily}
+}
+
+\newcommand{\llnode}[1][1]{
+    {
+        \pgfkeys{/custom/.cd,#1}
+        \pgfkeys{/custom/width/.get=\llnodewidth}
+        \pgfkeys{/custom/height/.get=\llnodeheight}
+        \pgfkeys{/custom/position/.get=\llnodeposition}
+        \pgfkeys{/custom/value/.get=\llnodevalue}
+        \pgfkeys{/custom/value font/.get=\llnodevaluefont}
+        \draw[thick] (\llnodeposition) rectangle ++(\llnodewidth,\llnodeheight);
+        \draw[thick] ($ (\llnodeposition) + (\llnodewidth,0) $) rectangle ++(\llnodewidth,\llnodeheight);
+        \node[font=\llnodevaluefont] at ($ (\llnodeposition) + (\llnodewidth / 2,\llnodeheight / 2) $) {\llnodevalue};
+    }
+}
+
+\begin{document}
+
+\maketitle
+
+\input{aux-general-info}
+\input{aux-overview}
+\input{aux-memory-layout}
+\input{aux-length}
+\input{aux-indexing}
+\input{aux-update}
+\input{aux-prepend}
+\input{aux-concatenate}
+\input{aux-conclusion}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
