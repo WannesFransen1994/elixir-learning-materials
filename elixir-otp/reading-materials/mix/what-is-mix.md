@@ -92,4 +92,4 @@ Now you can start making applications. Go make some exercises!
 
 ## Extra materials
 
-* [Configuring your project \[TODO\]](configuring-your-project.md)
+* [Configuring your project](configuring-your-project.md)
