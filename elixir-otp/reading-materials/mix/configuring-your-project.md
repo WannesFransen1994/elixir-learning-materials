@@ -61,7 +61,6 @@ import_config "#{Mix.env()}.exs"
 
 This will load configuration files such as `dev.exs` or `prod.exs`. When using a database for example, you don't want to develop using your production database. Though there's no need to do this right now. Let us focus on the basics.
 
-
 ## Wrong configurations
 
 In the above basic config, we've configured our `:config_demo` application. When we configure an application that's not available, errors will appear. Let's try this out:
