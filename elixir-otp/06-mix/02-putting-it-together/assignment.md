@@ -29,10 +29,11 @@ Make a module-based `DynamicSupervisor` that's called `InstanceSupervisor`. When
 
 __Think about the order in which the `GameServer` and `InstanceSupervisor` should be started!__
 
-<details>
-<summary>Answer:</summary>
+<details><summary>Answer:</summary>
 <p>
+
 First start the `DynamicSupervisor` and after that the `GameServer`. This is because later on clients will ask our `GameServer` to log on to an instance. This means that `GameServer` depends on the supervisor. Not the other way around, as the `DynamicSupervisor` doesn't need to interact with the `GameServer` at all.
+
 </p>
 </details>
 
