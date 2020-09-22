@@ -31,7 +31,9 @@ __Think about the order in which the `GameServer` and `InstanceSupervisor` shoul
 
 <details>
 <summary>Answer:</summary>
+<p>
 First start the `DynamicSupervisor` and after that the `GameServer`. This is because later on clients will ask our `GameServer` to log on to an instance. This means that `GameServer` depends on the supervisor. Not the other way around, as the `DynamicSupervisor` doesn't need to interact with the `GameServer` at all.
+</p>
 </details>
 
 Verify this with `:observer` or:
