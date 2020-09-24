@@ -15,7 +15,7 @@ Be careful with this so that you don't run out on the exam, this is solely your 
 
 ## Create your repo
 
-This should be obvious. Go to [GitHub](www.github.com), press the big green plus sign, you know, the one for a new repository. Then you'll create a clean project with no readme/gitignore.
+This should be obvious. Go to [GitHub](https://www.github.com), press the big green plus sign, you know, the one for a new repository. Then you'll create a clean project with no readme/gitignore.
 
 ## Phoenix
 
