@@ -10,9 +10,13 @@ We've seen that our templates can render multilingual context with a small effor
 
 There are 3 common ways to configure your locale with a URL link. Those are commonly:
 
+<!-- markdown-link-check-disable -->
+
 * [http://en.example.com/some/path](http://en.example.com/some/path)
 * [http://example.com/en/some/path](http://example.com/en/some/path)
 * [http://example.com/some/path?locale=en](http://example.com/some/path?locale=en)
+
+<!-- markdown-link-check-enable-->
 
 We'll go for the last one. So in order to provide these links, we'll create 2 buttons (for japanese and english):
 
@@ -95,7 +99,11 @@ After the locale is found and set for the connection, we add a cookie.
 
 ## Closing notes
 
+<!-- markdown-link-check-disable -->
+
 While it seems at first that the language setting can only be done at the index page, feel free to go to [http://localhost:4000/another_index/?locale=ja](http://localhost:4000/another_index/?locale=ja) . This will illustrate that the language could be set at every route.
+
+<!-- markdown-link-check-enable -->
 
 You need to be able to show:
 
