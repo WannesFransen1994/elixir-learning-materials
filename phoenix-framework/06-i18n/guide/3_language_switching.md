@@ -16,7 +16,7 @@ There are 3 common ways to configure your locale with a URL link. Those are comm
 * [http://example.com/en/some/path](http://example.com/en/some/path)
 * [http://example.com/some/path?locale=en](http://example.com/some/path?locale=en)
 
-<!-- markdown-link-check-enable-->
+<!-- markdown-link-check-enable -->
 
 We'll go for the last one. So in order to provide these links, we'll create 2 buttons (for japanese and english):
 

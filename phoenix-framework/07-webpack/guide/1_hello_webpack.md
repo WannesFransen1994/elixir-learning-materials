@@ -73,6 +73,6 @@ To let webpack run use the following command, this triggers the package.json scr
 npm run dev
 ```
 
-<!-- markdown-link-check-enable-->
+<!-- markdown-link-check-enable -->
 
 If you open the folder you'll see that webpack created a new file named bundle.js. You can open this file and see a lot of non-human-understandable javascript which loaded by the client.

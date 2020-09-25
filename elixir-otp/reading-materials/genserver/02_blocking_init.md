@@ -225,4 +225,4 @@ Phew. That was a long trip. Now we understand why exactly an `init` call is bloc
 
 ![Sequence diagram of why init is blocking](./images/genserver_init_blocking.png)
 
-Next up, you definitely should read why [`handle_continue`](./handle_continue.md) is interesting, if not an absolute necessity in some situations!
+Next up, you definitely should read why [`handle_continue`](./03_handle_continue.md) is interesting, if not an absolute necessity in some situations!

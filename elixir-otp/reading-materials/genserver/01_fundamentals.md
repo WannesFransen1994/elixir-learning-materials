@@ -274,4 +274,4 @@ This is just to understand the fundamentals of a GenServer, which most often of 
   <!-- markdown-link-check-disable -->
 * [non-immediate replies with tasks \[TODO\]](./non-immediate_replies.md) _Note: you need to understand supervisors and tasks._
 * [How you get a GenServer that uses huge amounts of RAM without hibernate \[TODO\]](./hibernate.md)
-  <!-- markdown-link-check-enable-->
+  <!-- markdown-link-check-enable -->
