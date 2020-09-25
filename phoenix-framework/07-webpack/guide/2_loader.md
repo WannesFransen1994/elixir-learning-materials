@@ -2,7 +2,7 @@
 
 ## Installation
 
-Make sure you have finished the installation of [hello_Webpack](1_hello_Webpack.md).
+Make sure you have finished the installation of [hello_Webpack](./1_hello_webpack.md).
 
 ## Front-end code
 
@@ -81,15 +81,15 @@ For ease we create a package.json file that can be used to run webpack from a si
 
 ## Run
 
-<!-- markdown-link-check-disable-->
+<!-- markdown-link-check-disable -->
 
 To let webpack run use the following command. If the browser does not open automatically, go to [this page](http://localhost:8080/) to visit your page. 
 
-<!-- markdown-link-check-enable-->
+<!-- markdown-link-check-enable -->
 
 ```bash
-npm install #Install the devDependencies defined in package.json
-npm run dev #run the script commands defined in package.json
+npm install # Install the devDependencies defined in package.json
+npm run dev # Run the script commands defined in package.json
 ```
 
 You should see the page with a blue body. If you inspect the page you will see that webpack changed the html code so that the styling previously defined in the app.css file is now included in the html.

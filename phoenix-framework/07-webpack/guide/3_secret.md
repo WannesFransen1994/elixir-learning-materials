@@ -137,13 +137,13 @@ For ease we create a package.json file that can be used to run webpack from a si
 
 ## Run
 
-To let webpack run use the following command. If the browser does not open automatically, go to [this page](http://localhost:8080/) to visit your page. 
+<!-- markdown-link-check-disable -->
 
-<!-- markdown-link-check-disable-->
+To let webpack run use the following command. If the browser does not open automatically, go to [this page](http://localhost:8080/) to visit your page.
 
 ```bash
-npm install #Install the devDependencies defined in package.json
-npm run dev #run the script commands defined in package.json
+npm install # Install the devDependencies defined in package.json
+npm run dev # Run the script commands defined in package.json
 ```
 
-<!-- markdown-link-check-enable-->
+<!-- markdown-link-check-enable -->

@@ -20,7 +20,7 @@ You'll see the following created file and folders:
 * `test/test_helper.exs`
 * `test/example_project_test.exs`
 
-The `README.md` and `.gitignore` are files that are used with Git. It is extremely common to (privately) put your packages on Git(Hub/ Lab) and these files are recommended. When you use these services, those files are practically a must. Though these are default files. For example, the `.gitignore` is quite basic and you'll want to add some extra files/folders to be ignored. Take a look at [gitignore.io](gitignore.io) and put "Elixir" and "VisualStudioCode" (change this by your IDE) in the box.
+The `README.md` and `.gitignore` are files that are used with Git. It is extremely common to (privately) put your packages on Git(Hub/ Lab) and these files are recommended. When you use these services, those files are practically a must. Though these are default files. For example, the `.gitignore` is quite basic and you'll want to add some extra files/folders to be ignored. Take a look at [gitignore.io](https://gitignore.io) and put "Elixir" and "VisualStudioCode" (change this by your IDE) in the box.
 
 _Note for those that aren't familiar with Git, it is common to initialize the root of the git folder at this level. __Don't__ make an extra folder and put the generated code there. Your generated `.git` folder after executing `git init` should be at the same level as the generated `README.md`!_
 

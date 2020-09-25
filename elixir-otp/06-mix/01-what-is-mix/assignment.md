@@ -1,6 +1,6 @@
 # Assignment
 
-Create a new application called `exercise`. Read the associated [mix intro reading material](/elixir-otp/reading-materials/mix/what-is-mix.md).
+Create a new application called `exercise`. Read the associated [mix intro reading material](../../reading-materials/mix/what-is-mix.md).
 
 The goal of this exercise is to understand how mix works regardless of OTP aspects.
 

@@ -1,6 +1,6 @@
 # Assignment
 
-Start by reading [this explanation](/elixir-basics/reading-materials/compiler-checks.md).
+Start by reading [this explanation](../../reading-materials/compiler-checks.md).
 
 ## Task
 

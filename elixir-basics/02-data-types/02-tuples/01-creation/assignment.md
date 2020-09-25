@@ -24,7 +24,7 @@ named `Tuple`. Feel free to take a look at the [documentation](https://hexdocs.p
 an idea of what is readily available.
 
 Note that because Elixir is a purely [functional
-language](/elixir-basics/reading-materials/functional-programming.md), you are not allowed to modify tuples.
+language](../../../reading-materials/functional-programming.md), you are not allowed to modify tuples.
 Instead, you are supposed to create new tuples.
 For example, the `Tuple.delete` function removes an element from a tuple,
 but it does so by returning a new tuple with the specified element missing:
