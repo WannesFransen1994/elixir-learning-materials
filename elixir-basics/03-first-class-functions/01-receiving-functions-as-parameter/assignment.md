@@ -2,7 +2,7 @@
 
 ## First Class Functions
 
-Start by reading [this text](/elixir-basics/reading-materials/loops.md).
+Start by reading [this text](../../reading-materials/loops.md).
 
 We'll first focus on functions: you'll need to be comfortable
 using them before we proceed.

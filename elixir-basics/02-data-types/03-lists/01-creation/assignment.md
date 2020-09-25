@@ -1,6 +1,6 @@
 # Assignment
 
-Start by reading the explanations on [linked lists](/elixir-basics/reading-materials/lists.md).
+Start by reading the explanations on [linked lists](../../../reading-materials/lists.md).
 
 As explained in the text, a linked list is a series of pairs (also called nodes.)
 It won't come as a surprise that to build a linked list, you

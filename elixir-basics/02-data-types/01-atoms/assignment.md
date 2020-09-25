@@ -1,6 +1,6 @@
 # Assignment
 
-Start with reading up on [atoms](/elixir-basics/reading-materials/atoms.md).
+Start with reading up on [atoms](../../reading-materials/atoms.md).
 
 As an example usage of atoms, let's implement the core functionality of rock-paper-scissors.
 First we need to decide how to represent the three possible choices: rock, paper, and scissors.
