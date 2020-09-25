@@ -32,7 +32,7 @@ Notice the src of the script tag, this is pointing to bundle.js, not to our myjs
 
 ## Webpack config
 
-For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code. 
+For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code.
 
 ```js
 module.exports = {
