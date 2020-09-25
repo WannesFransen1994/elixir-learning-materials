@@ -4,7 +4,7 @@
 
 Now that we have our (unfinished) context, schema and migration, we can go ahead and configure our routes. Because the user will want to configure his/her own cats, we'll need to generate some url that communicates this clearly in code and to the user. An example would be `/users/:user_id/cats` or `/users/:user_id/cats/:id/edit`. We can achieve this easily with [nested resources](https://hexdocs.pm/phoenix/routing.html) in our `router.ex`.
 
-Though we could easily generate a html version for the cat CRUD operations, we want these to only be editable through a REST endpoint. 
+Though we could easily generate a html version for the cat CRUD operations, we want these to only be editable through a REST endpoint.
 
 ## Router scopes
 

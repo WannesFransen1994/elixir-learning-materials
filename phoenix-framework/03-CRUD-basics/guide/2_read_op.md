@@ -61,8 +61,7 @@ Above actions should be self-explanatory. Next up are the `index.html.eex` and `
     </tbody>
 </table>
 
-<%= link "New user", 
-to: Routes.user_path(@conn, :new) %>
+<%= link "New user", to: Routes.user_path(@conn, :new) %>
 ```
 
 ```html

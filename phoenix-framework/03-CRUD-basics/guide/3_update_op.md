@@ -90,7 +90,6 @@ The only change is that this "sub" html file contains the @action variable now. 
 <span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
 ```
 
-
 ```html
 <h1>Edit user</h1>
 

@@ -38,7 +38,7 @@ This file should contain the code below.
 
 ## Webpack config
 
-For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code. 
+For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code.
 
 ```js
 module.exports = {
@@ -83,7 +83,7 @@ For ease we create a package.json file that can be used to run webpack from a si
 
 <!-- markdown-link-check-disable -->
 
-To let webpack run use the following command. If the browser does not open automatically, go to [this page](http://localhost:8080/) to visit your page. 
+To let webpack run use the following command. If the browser does not open automatically, go to [this page](http://localhost:8080/) to visit your page.
 
 <!-- markdown-link-check-enable -->
 

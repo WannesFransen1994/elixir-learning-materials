@@ -486,7 +486,7 @@ While `~` refers to the `/home/circleci` folder, when we execute `checkout`, it'
 While this is all good and well, we'll need to update our `store-test-results` step as well like so:
 
 ```yml
-      - store_test_results: 
+      - store_test_results:
           # Read more: https://circleci.com/docs/2.0/collect-test-data/
           path: test-reports
 ```

@@ -70,7 +70,6 @@ To prove that the order of importing the scripts is important, try to swap them 
 
 As you might have guessed, it won't work as the import order is important. For this small and easy demo this is not a problem, but for big projects this can cause severe problems. This is a reason to use webpack as webpack can bundle the dependend files so the import order isn't important anymore.
 
-
 To make use of webpack we have to change our index.html file to use the app_bundle.js file that webpack will create for us.
 
 index.html
@@ -86,7 +85,7 @@ index.html
 ```
 
 Besides changing the index.html we have to change both the js files. This to let webpack know what dependecies to use. In the selector.js file export the used variables.
- 
+
 selector.js
 
 ```js
@@ -104,7 +103,7 @@ import {btn, para} from './selector.js'
 
 ## Webpack config
 
-For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code. 
+For the final part we have to configure our webpack. Thus create a new file named 'webpack.config.js'. Within this file write the following code.
 
 ```js
 module.exports = {

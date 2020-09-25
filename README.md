@@ -29,8 +29,9 @@ While practice and exercises are all good and well, understanding the theory is 
 Special thanks to the following people (in no particular order):
 
 * [Wannes Fransen](https://github.com/WannesFransen1994)
-* [requesting permission to mention name](/)
+* [Frederic Vogels](https://github.com/fvogels)
 * [Tom Eversdijk](https://github.com/TomEversdijk)
+* [Brecht Philtjens](https://github.com/BrechtPh)
 
 Maybe sponsor is the wrong word, but most of these materials were initially funded by [UCLL](https://www.ucll.be/). If they didn't decide to adopt Elixir, this wouldn't have been possible.
 
