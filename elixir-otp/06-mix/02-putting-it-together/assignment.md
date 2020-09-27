@@ -166,9 +166,21 @@ While there are still some kinks that should be ironed out, we now have a very s
 
 ## Task 7 - algorithm based on N players in instance
 
-TODO: Implement algorithm that assigns a player based on an algorithm that divides a percentage of the new players to an instance.
+Right now we're assigning players randomly over our instances. In a game context, users can log out, which means that the "random" algorithm won't be the best choice. If you provide the option that users can change instances themselves, this problem might even become worse over time. This task will let you implement another strategy to assign new connections.
 
-It's up to you to implement an algorithm that you think is useful, but we'll provide a naive WRR (Weight Round Robin) like algorithm.
+The proposed algorithm assigns a player based on a weighted percentage. This percentage is calculated based on the current connected players to an instance. It is not necessary to do this perfectly, as we don't have real-time feed from our instances (regarding connected players). This would only cause a lot of messages that don't have a lot of added value anyway.
+
+Question to you: why do you think least first isn't a good choice as an algorithm?
+
+<details><summary>Answer:</summary>
+<p>
+
+* We don't have a realtime feed, causing to "overload" an instance every 10 seconds
+* Traffic, and thus also workload, isn't distributed evenly. Once instance is handling a lot of new players at once
+* This will result in another instance handling new connections roughly every 10 seconds. Thus mitigating the problem up until a certain point where there are similar-loaded instances. This isn't the case when a new instance shows up, as it will be the least connected server for longer than 10 seconds. This extremely loaded instance will thus be very busy, causing a delay to new players that want to log in.
+
+</p>
+</details>
 
 ```text
 Imagine you have Instance A, B and C.
@@ -190,6 +202,72 @@ Based on these temporary values, we can calculate the % chance that the connecti
 
 While this might not be totally correct... it is just to give you an indication. It is not our aim to create a mathematically correct load balancing algorithm.
 ```
+
+You can test the above with following code (I've added some extra IO.inspect to show the above calculations):
+
+```elixir
+iex> ExerciseSolution.GameServer.list_instances
+%{}
+iex> ExerciseSolution.GameServer.add_instance InstanceA
+:ok
+iex> ExerciseSolution.GameServer.add_instance InstanceB
+:ok
+iex> ExerciseSolution.GameServer.list_instances
+# When adding an instance, I quickly give a very high percentage to make sure
+#   it is selected first.
+%{
+  InstanceA => %{percentage: 100, pid: #PID<0.148.0>, players: 0},
+  InstanceB => %{percentage: 100, pid: #PID<0.151.0>, players: 0}
+}
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell1", self()
+# Here you can see that this results in a number between the sum of the below numbers.
+#   Normally this is a number between 1-100%, but instances that don't have any players
+#     will score very high.
+Elixir.DATA: [{InstanceA, 10000}, {InstanceB, 10000}]
+Elixir.RANDOM_NUMBER: 2939
+Elixir.RESULT_INSTANCE: InstanceA
+{:connected_to_instance, #PID<0.148.0>}
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell2", self()
+Elixir.DATA: [{InstanceA, 10000}, {InstanceB, 10000}]
+Elixir.RANDOM_NUMBER: 9449
+Elixir.RESULT_INSTANCE: InstanceA
+{:connected_to_instance, #PID<0.148.0>}
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell3", self()
+Elixir.DATA: [{InstanceA, 1.0}, {InstanceB, 99.0}]
+Elixir.RANDOM_NUMBER: 12
+Elixir.RESULT_INSTANCE: InstanceB
+{:connected_to_instance, #PID<0.151.0>}
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell4", self()
+# Here you can see that the instances have reported back after they have some connections.
+Elixir.DATA: [{InstanceA, 33.0}, {InstanceB, 67.0}]
+Elixir.RANDOM_NUMBER: 65
+Elixir.RESULT_INSTANCE: InstanceB
+{:connected_to_instance, #PID<0.151.0>}
+iex> ExerciseSolution.GameServer.list_instances
+%{
+  InstanceA => %{percentage: 0.5, pid: #PID<0.148.0>, players: 2},
+  InstanceB => %{percentage: 0.5, pid: #PID<0.151.0>, players: 2}
+}
+```
+
+Just a quick note regarding selecting an instance based multiple percentages. In the solution I've used the following approach:
+
+```text
+(sorted from low to high)
+Instance percentages: A: 5%, B: 35%, C: 60%
+Random number between 1-100 ->
+Examples:
+  e.g. 20
+  20 is higher than 5, subtract 5 from 20 and go to the next element.
+  15 is lower than 35 -> choose instance B
+
+  e.g. 45
+  45 is higher than 5, subtract 5 from 45 and go to the next element.
+  40 is higher than 35, subtract 35 from 40 and go to the next element.
+  5 is lower than 60 -> choose instance C
+```
+
+There is most likely a better solution, but this is just a suggestion.
 
 ## Task 8 - monitor the instances
 
