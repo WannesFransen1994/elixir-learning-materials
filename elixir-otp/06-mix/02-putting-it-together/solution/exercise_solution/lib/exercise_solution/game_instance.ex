@@ -7,9 +7,9 @@ defmodule ExerciseSolution.GameInstance do
   defstruct players: %{}, report_timer: nil
 
   def start_link(args) do
-    case Keyword.pop(args, :name) do
-      {nil, _args} -> {:error, :no_name_param}
-      {value, remaining_args} -> GenServer.start_link(@me, remaining_args, name: value)
+    case args[:name] do
+      nil -> {:error, :no_name_param}
+      value -> GenServer.start_link(@me, args, name: value)
     end
   end
 
@@ -17,7 +17,8 @@ defmodule ExerciseSolution.GameInstance do
     GenServer.call(instance, {:add_player, player_name, player_pid})
   end
 
-  def init(_args) do
+  def init(args) do
+    send(ExerciseSolution.GameServer, {:register, args[:name], self()})
     timer = :timer.send_interval(10_000, :report_to_gameserver)
     {:ok, struct!(@me, report_timer: timer)}
   end

@@ -228,6 +228,8 @@ Elixir.RANDOM_NUMBER: 2939
 Elixir.RESULT_INSTANCE: InstanceA
 {:connected_to_instance, #PID<0.148.0>}
 iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell2", self()
+# Note: Despite Instance A already having a connected player, the percentagage is extremely high.
+#  This is because the new players are connected within the 10 second window (and the GameServer isn't updated yet)
 Elixir.DATA: [{InstanceA, 10000}, {InstanceB, 10000}]
 Elixir.RANDOM_NUMBER: 9449
 Elixir.RESULT_INSTANCE: InstanceA
@@ -269,15 +271,66 @@ Examples:
 
 There is most likely a better solution, but this is just a suggestion.
 
-## Task 8 - monitor the instances
+## Task 8 - monitor instances & register when started
 
-TODO: Instances can crash, this will cause our `GameServer` to crash as well. This shouldn't happen as, ideally speaking, the PID registered in our `GameServer` should be updated as well.
+Now that we've got a very basic implemetation, we can happily say that it works. Well, at least when there are no crashes. We all know that instances crash for various reasons... Let us see how our current implementation handles this.
 
-## Task 9 - register when started
+First create some instances and add some players.
 
-TODO: when an instance is started, it should register itself instead of relying on the output of the dynamic supervisor. This also makes the code more flexible when an instance is restarted by the supervisor. We'll basically be programming our own `Registry`.
+```elixir
+iex> ExerciseSolution.GameServer.add_instance InstanceA
+:ok
+iex> ExerciseSolution.GameServer.add_instance InstanceB
+:ok
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell1", self()
+{:connected_to_instance, #PID<0.148.0>}
+iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell2", self()
+{:connected_to_instance, #PID<0.151.0>}
+```
 
-## Task 10 - replying late when assigning a player
+Next, open your `:observer` with `:observer.start` and kill all the started instances. In my case, my `GameServer` crashes because of `no match of right hand side value: nil`. This is because when the report comes in, it'll search for the instance based on the PID. While we could program our way around this (if pid not in state ... do ...), we'll let our 'GameServer' crash. Bluntly stating that it needs this information (the instance associated with the PID) to be able to work.
+
+### SubTask A. Monitoring instances
+
+So how do we resolve this problem? Well this will need 2 steps. First, we'll monitor our instances so that they are deleted from the state when something crashes. When this happens (and the messages arrives at our `GameServer`), we'll just delete that instance from our state. Let's not think about instances that aren't working and just focus on the good ones.
+
+_If you finish this task you can still receive errors when testing it manually. When a report message arrives, it'll still try to associate the PID with an instance. Don't worry, this doesn't have to work for now. Test manually that the instance is removed within the report window with `list_instances`._
+
+## SubTask B. instance registration
+
+Now we'll make it a bit more durable so that our `GameServer` doesn't crash all the time. When an instance starts, it'll have to register itself at the `GameServer`. This way, when an instance is (re)started, the `GameServer` has its updated PID.
+
+Verify this by doing te above steps again, though only this time the `GameServer` shouldn't crash and its state (instances with their associated PID's) should be updated automatically. When you execute `ExerciseSolution.GameServer.list_instances/0`, you should see updated PID's.
+
+```elixir
+iex> ExerciseSolution.GameServer.add_instance IA
+:ok
+iex> ExerciseSolution.GameServer.add_instance IB
+:ok
+iex> ExerciseSolution.GameServer.list_instances
+%{
+  IA => %{percentage: 100, pid: #PID<0.162.0>, players: 0},
+  IB => %{percentage: 100, pid: #PID<0.164.0>, players: 0}
+}
+iex> :observer.start
+:ok
+iex> # kill instance A in observer
+iex> ExerciseSolution.GameServer.list_instances
+%{
+  IA => %{percentage: 100, pid: #PID<0.192.0>, players: 0},
+  IB => %{percentage: 100, pid: #PID<0.164.0>, players: 0}
+}
+iex> # kill instance B in observer
+iex> ExerciseSolution.GameServer.list_instances
+%{
+  IA => %{percentage: 100, pid: #PID<0.192.0>, players: 0},
+  IB => %{percentage: 100, pid: #PID<0.201.0>, players: 0}
+}
+```
+
+_Note: we're basically mixing a very basic `Registry` within our logic of our `GameServer`. This is thus not good design of our OTP application! We'll cover `Registry` later. This is a good exercise to understand why you need a `Registry` and how it kind of works (this is a naive implementation after all)._
+
+## Task 9 - replying late when assigning a player
 
 TODO: reply late so that assigns are not blocking.
 

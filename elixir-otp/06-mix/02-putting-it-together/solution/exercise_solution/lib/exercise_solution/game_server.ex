@@ -28,10 +28,7 @@ defmodule ExerciseSolution.GameServer do
   def handle_cast({:add_instance, instance}, state) do
     case ExerciseSolution.InstanceSupervisor.add_instance(name: instance) do
       {:ok, pid} ->
-        new_instances =
-          Map.put_new(state.instances, instance, %{pid: pid, players: 0, percentage: 100})
-
-        {:noreply, %{state | instances: new_instances}}
+        {:noreply, add_instance_to_state(state, instance, pid)}
 
       {:error, reason} ->
         Logger.warn("Could not create instance because of #{inspect(reason)}")
@@ -46,7 +43,7 @@ defmodule ExerciseSolution.GameServer do
   def handle_call({:assign_player_to_instance, p_name, p_pid}, _from, %@me{} = state) do
     instance = calculate_instance_to_assign_to(state.instances, :wrr)
     # instance = calculate_instance_to_assign_to(state.instances, :random)
-    IO.inspect(instance, label: RESULT_INSTANCE)
+    # IO.inspect(instance, label: RESULT_INSTANCE)
 
     result =
       case Map.has_key?(state.instances, instance) do
@@ -64,12 +61,30 @@ defmodule ExerciseSolution.GameServer do
       |> update_total_players()
       |> update_instance_load_balance_percentage()
 
-    # IO.inspect(updated_state)
-
     {:noreply, updated_state}
   end
 
+  # SubTask 8A
+  def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
+    {instance, _data} = find_instance_by_pid(state.instances, pid)
+    updated_state = %{state | instances: Map.delete(state.instances, instance)}
+    {:noreply, updated_state}
+  end
+
+  # SubTask 8B
+  def handle_info({:register, instance, pid}, state) do
+    {:noreply, add_instance_to_state(state, instance, pid, false)}
+  end
+
   ## Helper functions
+
+  defp add_instance_to_state(state, instance, pid, monitor? \\ true) do
+    new_instances =
+      Map.put_new(state.instances, instance, %{pid: pid, players: 0, percentage: 100})
+
+    if monitor?, do: Process.monitor(pid)
+    %{state | instances: new_instances}
+  end
 
   defp update_instance_load_balance_percentage(%{instances: is, total_players: 0} = state) do
     percentages = Enum.map(is, fn {k, _v} -> {k, 100} end) |> Enum.into(%{})
@@ -134,12 +149,12 @@ defmodule ExerciseSolution.GameServer do
       Enum.map(instances, fn {k, v} -> {k, v.percentage * 100} end)
       |> Enum.sort_by(&elem(&1, 1), &<=/2)
 
-    IO.inspect(reformatted, label: DATA)
+    # IO.inspect(reformatted, label: DATA)
 
     random_number =
       Enum.map(reformatted, fn {_k, v} -> v end) |> Enum.sum() |> trunc |> :rand.uniform()
 
-    IO.inspect(random_number, label: RANDOM_NUMBER)
+    # IO.inspect(random_number, label: RANDOM_NUMBER)
 
     Enum.reduce_while(reformatted, random_number, fn {instance, percentage}, acc ->
       if acc <= percentage, do: {:halt, instance}, else: {:cont, acc - percentage}
