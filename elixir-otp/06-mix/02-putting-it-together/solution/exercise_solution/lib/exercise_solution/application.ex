@@ -10,7 +10,8 @@ defmodule ExerciseSolution.Application do
       # This is first because the manager depends on the supervisor.
       #   The supervisor doesn't depend on the manager at all.
       {ExerciseSolution.InstanceSupervisor, []},
-      {ExerciseSolution.GameServer, []}
+      {ExerciseSolution.GameServer, []},
+      {Task.Supervisor, name: ExerciseSolution.AssignInstanceTaskSup}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

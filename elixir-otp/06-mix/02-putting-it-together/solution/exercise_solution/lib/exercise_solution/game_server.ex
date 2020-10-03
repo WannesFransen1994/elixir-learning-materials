@@ -4,9 +4,11 @@ defmodule ExerciseSolution.GameServer do
   require Logger
   require IEx
 
+  alias ExerciseSolution.{AssignPlayerTask, AssignInstanceTaskSup}
+
   @me __MODULE__
 
-  defstruct instances: %{}, total_players: 0
+  defstruct instances: %{}, total_players: 0, assignment_tasks: %{}
 
   ## API
 
@@ -40,18 +42,16 @@ defmodule ExerciseSolution.GameServer do
     {:reply, state.instances, state}
   end
 
-  def handle_call({:assign_player_to_instance, p_name, p_pid}, _from, %@me{} = state) do
-    instance = calculate_instance_to_assign_to(state.instances, :wrr)
-    # instance = calculate_instance_to_assign_to(state.instances, :random)
-    # IO.inspect(instance, label: RESULT_INSTANCE)
+  def handle_call({:assign_player_to_instance, p_name, p_pid}, from, %@me{} = state) do
+    task_args = [p_pid: p_pid, p_name: p_name, instances: state.instances, strategy: :wrr]
 
-    result =
-      case Map.has_key?(state.instances, instance) do
-        false -> {:error, :instance_does_not_exist}
-        true -> ExerciseSolution.GameInstance.assign_player(instance, p_name, p_pid)
-      end
+    task =
+      Task.Supervisor.async_nolink(AssignInstanceTaskSup, AssignPlayerTask, :run, [task_args])
 
-    {:reply, result, state}
+    new_assignment_tasks = Map.put(state.assignment_tasks, task.ref, {task, from})
+    new_state = %{state | assignment_tasks: new_assignment_tasks}
+
+    {:noreply, new_state}
   end
 
   def handle_info({:report_player_load, pid, n_players}, %@me{} = state) do
@@ -64,11 +64,33 @@ defmodule ExerciseSolution.GameServer do
     {:noreply, updated_state}
   end
 
-  # SubTask 8A
-  def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
-    {instance, _data} = find_instance_by_pid(state.instances, pid)
-    updated_state = %{state | instances: Map.delete(state.instances, instance)}
-    {:noreply, updated_state}
+  # SubTask 9B
+  def handle_info({ref, response}, state) do
+    {_task, from} = Map.get(state.assignment_tasks, ref)
+    GenServer.reply(from, response)
+    {:noreply, state}
+  end
+
+  # SubTask 9B
+  def handle_info({:DOWN, ref, :process, pid, _}, %@me{} = state) do
+    is = state.instances
+    ts = state.assignment_tasks
+
+    cond do
+      Map.get(ts, ref) != nil ->
+        new_tasks = Map.delete(ts, ref)
+        {:noreply, %{state | assignment_tasks: new_tasks}}
+
+      find_instance_by_pid(is, pid) != nil ->
+        {instance, _data} = find_instance_by_pid(is, pid)
+        updated_state = %{state | instances: Map.delete(is, instance)}
+        {:noreply, updated_state}
+
+      # find_instance_by_pid(is, pid) == nil and Map.get(ts, ref) == nil ->
+      true ->
+        Logger.warn("Down message from non associated process. Ignoring.")
+        {:noreply, state}
+    end
   end
 
   # SubTask 8B
@@ -137,27 +159,5 @@ defmodule ExerciseSolution.GameServer do
 
   defp find_instance_by_pid(instances, instance_pid) do
     Enum.find(instances, nil, fn {_k, v} -> v.pid == instance_pid end)
-  end
-
-  # defp calculate_instance_to_assign_to(instances, :random) do
-  #   {instance, _unnecessary_data} = Enum.random(instances)
-  #   instance
-  # end
-
-  defp calculate_instance_to_assign_to(instances, :wrr) do
-    reformatted =
-      Enum.map(instances, fn {k, v} -> {k, v.percentage * 100} end)
-      |> Enum.sort_by(&elem(&1, 1), &<=/2)
-
-    # IO.inspect(reformatted, label: DATA)
-
-    random_number =
-      Enum.map(reformatted, fn {_k, v} -> v end) |> Enum.sum() |> trunc |> :rand.uniform()
-
-    # IO.inspect(random_number, label: RANDOM_NUMBER)
-
-    Enum.reduce_while(reformatted, random_number, fn {instance, percentage}, acc ->
-      if acc <= percentage, do: {:halt, instance}, else: {:cont, acc - percentage}
-    end)
   end
 end

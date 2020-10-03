@@ -290,13 +290,13 @@ iex> ExerciseSolution.GameServer.assign_player_to_instance "iex_shell2", self()
 
 Next, open your `:observer` with `:observer.start` and kill all the started instances. In my case, my `GameServer` crashes because of `no match of right hand side value: nil`. This is because when the report comes in, it'll search for the instance based on the PID. While we could program our way around this (if pid not in state ... do ...), we'll let our 'GameServer' crash. Bluntly stating that it needs this information (the instance associated with the PID) to be able to work.
 
-### SubTask A. Monitoring instances
+### SubTask 8A. Monitoring instances
 
 So how do we resolve this problem? Well this will need 2 steps. First, we'll monitor our instances so that they are deleted from the state when something crashes. When this happens (and the messages arrives at our `GameServer`), we'll just delete that instance from our state. Let's not think about instances that aren't working and just focus on the good ones.
 
 _If you finish this task you can still receive errors when testing it manually. When a report message arrives, it'll still try to associate the PID with an instance. Don't worry, this doesn't have to work for now. Test manually that the instance is removed within the report window with `list_instances`._
 
-## SubTask B. instance registration
+## SubTask 8B. instance registration
 
 Now we'll make it a bit more durable so that our `GameServer` doesn't crash all the time. When an instance starts, it'll have to register itself at the `GameServer`. This way, when an instance is (re)started, the `GameServer` has its updated PID.
 
@@ -332,7 +332,46 @@ _Note: we're basically mixing a very basic `Registry` within our logic of our `G
 
 ## Task 9 - replying late when assigning a player
 
-TODO: reply late so that assigns are not blocking.
+Right now we're adding players one by one. Another problem might be that the calculation to decide upon the instance might be a little costly (depending on your implementation). The more time it requires to complete, the longer it'll take when a lot of players connect at the same time. This is something that we don't want, so we'll assign these players asynchronously.
+
+### Subtask 9A. Add a task supervisor
+
+In order to reply late, we'll want to do asynchronous calculations. This means that we'll have extra processes! Extra processes means a bigger supervision tree. What approach can we take in order to design this in a robust way?
+
+* Link them directly to the `GameServer` (which starts up the tasks)
+* Start them under a `Task.Supervisor` (thus being unlinked to the `GameServer`, but is linked & supervised by the supervisor)
+* Unsupervised, unlinked processes _(we won't even consider this option. Similar to a self-driving car which isn't supervised at all)_
+
+<details><summary>Answer:</summary>
+<p>
+
+We'll start them under a separate supervisor. There is always a chance that processes crash, so in order to make oure process robust we'll want to isolate these errors.
+
+In order to organise our code, it is also useful to provide a seperate module where this logic is located. You'll pass the necessary data (instance information & message information) to the newly spawned process and do the calculation there.
+
+For now, create a Task Supervisor and verify it is running with `:observer.start`.
+
+</p>
+</details>
+
+### Subtask 9B. Asynchronously calculating the next instance
+
+Now that we've got the supervisor, do the following things:
+
+* Start the Task from the `GameServer`. Make sure the `GameServer` process is not linked to the Task!
+* Keep track of the tasks in the state of your `GameServer`
+* Pass the necessary information to the newly spawned Task
+* Make sure that the "calculate instance" logic is in the separate Task module
+* While the client may do a `GenServer.call`, don't reply immediately
+* Provide a clause to process the response from the Task
+* Adjust your current clause for monitored processes that go down. Check whether they're down messages that come from either:
+  * your instance that crashes
+  * your task that replies
+  * messages that aren't from both of these, may be ignored. Do log a warning though.
+
+There's still some other details that should be taken care of (what if a Task fails? What should we do then?), but for now you can be happy with the current solution.
+
+Here we see that if the `Registry` logic would no longer be in our `GameServer`, our code base should become a lot cleaner. Feel free to try this yourself!
 
 ## Summary
 
