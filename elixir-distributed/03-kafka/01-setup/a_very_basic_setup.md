@@ -119,6 +119,7 @@ kafka_1        | ===> User
 Verify that the containers are running with:
 
 ```bash
+$ docker container ls -a
 CONTAINER ID        ...       STATUS                    PORTS                          NAMES
 2478186ebee6        ...       Up About a minute         0.0.0.0:9092->9092/tcp         kafka_1
 ffef4bceb320        ...       Up About a minute         2181/tcp, 2888/tcp, 3888/tcp   zookeeper_1
