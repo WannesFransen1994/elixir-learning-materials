@@ -106,9 +106,9 @@ $ docker-compose -f kafka_basic.yml up
 With this command we tell docker compose to start the services listed in the file. When you do this, you should see something like:
 
 ```txt
-Creating zookeeper_1 ... 
+Creating zookeeper_1 ...
 Creating zookeeper_1 ... done
-Creating kafka_1 ... 
+Creating kafka_1 ...
 Creating kafka_1 ... done
 Attaching to zookeeper_1, kafka_1
 zookeeper_1    | ===> User
@@ -174,7 +174,7 @@ br-9c469add1cb5  UP             172.18.0.1/16 fe80::42:e7ff:fe6e:c3dc/64
 
 # When we run the same command when the containers are down:
 $ ip -br a
-lo               UNKNOWN        127.0.0.1/8 ::1/128 
+lo               UNKNOWN        127.0.0.1/8 ::1/128
 enp0s31f6        UP             10.24.190.101/21 fe80::5a05:89a3:e00:4ab2/64
 docker0          DOWN           172.17.0.1/16 fe80::42:53ff:fe2f:9a92/64
 br-9c469add1cb5  DOWN           172.18.0.1/16 fe80::42:e7ff:fe6e:c3dc/64 # -> status changed to down!
