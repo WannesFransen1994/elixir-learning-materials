@@ -69,7 +69,7 @@ Kafka servers, also refererred to as Kafka Brokers, can't exist on their own. Th
 
 The communication between Kafka Brokers and Zookeeper servers are minimal. The only communication that happens is regarding metadata of the brokers.
 
-Brokers know who is the leader of a given topic partition _(right now we'll just assume that one topic = one partition, but know that this can be split up)_ thanks to Zookeeper servers. 
+Brokers know who is the leader of a given topic partition _(right now we'll just assume that one topic = one partition, but know that this can be split up)_ thanks to Zookeeper servers.
 
 A simple example with 2 topics and 2 brokers (and a replication factor of 2):
 
