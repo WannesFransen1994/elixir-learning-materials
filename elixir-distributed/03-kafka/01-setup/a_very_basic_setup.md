@@ -79,7 +79,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper_1:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka_1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
@@ -94,6 +94,7 @@ So a quick overview of the above file:
 * For the zookeeper, we give it a unique ID. This has to be unique between the zookeeper cluster. Same for the `KAFKA_BROKER_ID` environment variable.
 * With `ZOOKEEPER_CLIENT_PORT` we specify the port on which the Zookeeper will listen for clients. This is configured in our Kafka service with `KAFKA_ZOOKEEPER_CONNECT`. _Note that our `zookeeper_1` will be resolved to the IP address of our other container._
 * Kafka will be listening on port 9092. This is the port of the containerized machine! Not of our host machine. That's why we add the `ports` section. _(The `ports` section has a notation of `EXTERNAL_PORT:INTERNAL_PORT`. Meaning that the host port 9092 will be redirected to the internal 9092 port.)_
+* When we have clients that produce/consume to our Kafka, it'll need connect and retrieve metadata from it. One of the things it'll ask is "who can I contact?", in which case you'll respond with the `KAFKA_ADVERTISED_LISTENERS` setting. That's why you have to specify `localhost` and not `kafka_1`, as your host doesn't resolve the `kafka_1` hostname. Your host its port 9092 will be redirected to the internal `kafka_1` its port 9092.
 * Regarding the `KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR`, feel free to ignore the details regarding this setting for now. If you want to go in depth over [this setting](https://kafka.apache.org/documentation/#offsets.topic.replication.factor), I'd suggest you look at this tutorial regarding [offsets](https://www.learningjournal.guru/courses/kafka/kafka-foundation-training/offset-management/). To put it in a nutshell, every consumer has an offset and there's also a committed offset. In order to keep track of this, they keep a topic with this information. Normally this has a replication factor of 3 (thus needing 3 brokers), but for a single node setup we will put this on 1.
 
 ## Running our containers
