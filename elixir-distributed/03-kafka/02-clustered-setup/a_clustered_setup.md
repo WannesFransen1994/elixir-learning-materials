@@ -2,7 +2,7 @@
 
 For Zookeeper, multinode cluster also referred to as ensemble. Suggested in 3 - 5 - ... (odd number) clusters due to the majority quorum algorithm.
 
-TODO: Write this section.
+TODO: Write this section. Feel free to skip this for now
 
 _Dumping docker compose file for future reference._
 
