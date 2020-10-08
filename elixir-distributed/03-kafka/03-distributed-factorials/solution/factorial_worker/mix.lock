@@ -1,0 +1,7 @@
+%{
+  "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], [], "hexpm", "4a0850c9be22a43af9920a71ab17c051f5f7d45c209e40269a1938832510e4d9"},
+  "crc32cer": {:hex, :crc32cer, "0.1.10", "fb87abbf34b72f180f8c3a908cd1826c6cb9a59787d156a29e05de9e98be385e", [:rebar3], [], "hexpm", "5b1f47efd0a1b4b7411f1f35e14d3c8c6da6e6a2a725ec8f2cf1ab13703e5f38"},
+  "kafka_ex": {:hex, :kafka_ex, "0.11.0", "20c1e6feac49e84b794d7c0d4c33b26910d91eafa00c4eb53515eb650c438c02", [:mix], [{:kayrock, "~> 0.1.9", [hex: :kayrock, repo: "hexpm", optional: false]}], "hexpm", "a26ff1ba8addf12aa1f08a62121127e6ec9fc0885622a70523885b83a06cc94a"},
+  "kayrock": {:hex, :kayrock, "0.1.11", "b7a021ebd3bf1ac0ec058efc1c87f84e7ab067abdaf47a728a6bf574499a5d3d", [:mix], [{:connection, "~>1.0.4", [hex: :connection, repo: "hexpm", optional: false]}, {:crc32cer, "~>0.1.3", [hex: :crc32cer, repo: "hexpm", optional: false]}, {:varint, "~>1.2.0", [hex: :varint, repo: "hexpm", optional: false]}], "hexpm", "a495a2b6dda7d199bd8e2eeb4e5d3a1c52299b6d3417973bc84459940dc1dc9e"},
+  "varint": {:hex, :varint, "1.2.0", "61bffd9dcc2d5242d59f75694506b4d4013bb103f6a23e34b94f89cebb0c1ab3", [:mix], [], "hexpm", "d94941ed8b9d1a5fdede9103a5e52035bd0aaf35081d44e67713a36799927e47"},
+}
