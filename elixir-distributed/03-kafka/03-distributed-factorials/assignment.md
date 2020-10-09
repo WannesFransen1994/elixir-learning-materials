@@ -39,7 +39,7 @@ A short explanation here:
 
 * Our fictive webserver (which for now is a basic mix project) will publish factorials that need to be calculated.
 * The workers receive / listen to the `TODO-TOPIC` topic. After which they'll calculate the result and publish it to the `FINISHED-TOPIC`
-* Upon publishing to the `TODO-TOPIC` topic, we will get a result (which contains an offset of the record if you've configured your `ack` setting right). 
+* Upon publishing to the `TODO-TOPIC` topic, we will get a result (which contains an offset of the record if you've configured your `ack` setting right).
   * The Fictive webserver needs to know though what result belongs to what request. A common way to do this is to provide some kind of UUID (e.g. in a webshop related context, this could be the customer ID, transaction ID, product ID, ...), but in our case we can just say "this value was the request".
   * If, by any chance, 2 request with the same value are sent to kafka (and the webserver is waiting for both responses), the first message that's produced to the `FINISHED-TOPIC` will be the answer to both requests. _Note: In normal use-cases this is not the case! A UUID approach is more common. Kafka is also mostly used with asynchronous events that don't immediately need to reply to the requester. E-mails, transaction processing, metrics, etc... are common use-cases._
 
@@ -101,6 +101,8 @@ Now that the `factorials-to-be-calculated` are on Kafka, we'll have to write a c
    * with `:observer.start` -> applications, find the worker PID's.
 4. **make sure you have 2 partitions** and count your workers processes / consumers. You should have 2 workers. Start another worker node **that is not connected to another node** and verify the workers again. You should have only 1 worker now / node. Stop one node and wait a while. After a while, you should see that the worker nodes are increased again to 2 consumers.
 
+_Note: When looking at the solution code, also look at the [solution.exs](./solution/fictive_webserver/solution_steps.exs) file. This is to illustrate how to tackle these problems step by step._
+
 ## Task 5: Publishing the result
 
 Now that we've received the message, calculate the factorial. After that write it to the `factorials-result` topic **without manually creating the topic**. You'll see that when you write a message to a non-existent topic, it'll be created automatically.
@@ -126,8 +128,45 @@ Verify that your results are published correctly with `kafka-console-consumer`.
 
 ## Task 6: Consuming the result
 
-TODO.
+Now that we've got our processed result, it is time for our `FictiveWebserver` to consume the `factorials-result` topic.
 
-## Task 7: Emulating a high traffic system
+Though first of all, let's create a `GenServer` process (e.g. `FactorialResultWaiter`) which will keep track of the requests (and send back the response).
 
-TODO.
+* Create the following module with the following function:
+  * `FactorialResultWaiter` module.
+  * `wait_for_response(factorial_requested, pid_requester, ts_before_produce, ts_after_produce_ack)` function. _We include the timestamps so that, if you want to, you can do an analysis later on as to how long certain aspects take._
+* When a request is made (and the offset is committed), register your factorial with the `FactorialResultWaiter`.
+  * Think about how you'll reply to your caller. You'll have to reply late.
+  * Think about duplicates. When, by chance, 2 times the same factorials have been requested by another process, how will store this in your state?
+* Start a consumer(group) with a consumer that reads this value. First, just dump it to the screen.
+* Let the consumer send a message to `FactorialResultWaiter` when a result arrives. Do this with the `result_arrived(factorial_requested, result)` function.
+* At last, remove the entry from the state in `FactorialResultWaiter` when the result message has arrived. Reply on the waiting GenServer call as well.
+
+_Note: When starting a consumer, it'll have to synchronize in the beginning. As soon as the debug information "Joined consumer group...", you're good to go. Look at the output (and the timestamps!) below:_
+
+```text
+09:58:26.452 [debug] Successfully connected to broker "localhost":9092
+09:58:26.458 [debug] Establishing connection to broker 1: "localhost" on port 9092
+09:58:26.459 [debug] Successfully connected to broker "localhost":9092
+09:58:26.465 [debug] Successfully connected to broker "localhost":9092
+09:58:26.466 [debug] Establishing connection to broker 1: "localhost" on port 9092
+09:58:26.467 [debug] Successfully connected to broker "localhost":9092
+Interactive Elixir (1.10.4) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)>
+09:58:54.415 [debug] Joined consumer group factorials_result_consumer_group generation 14 as kafka_ex-55311401-fa7c-443b-a89e-f79eb7bef70a
+09:58:54.441 [debug] Successfully connected to broker "localhost":9092
+09:58:54.443 [debug] Establishing connection to broker 1: "localhost" on port 9092
+09:58:54.444 [debug] Successfully connected to broker "localhost":9092
+```
+
+In the end, you should be able to use your system like:
+
+```elixir
+iex> FictiveWebserver.generate_number 10000,2000
+Elixir.TIME_INFORMATION_REPORT: "produce delay (w/ ack) cost (in milliseconds): 3 \t | total time cost: 36"
+19492884327 ... # lots of numbers
+```
+
+## Task 7: Emulating insights a high traffic system
+
+TODO: provide information regarding metrics, perhaps use protobuf / Apache avro, but this isn't a priority for now. Grafana insights, aggregated logs, etc... are all very useful. Not a priority for now.

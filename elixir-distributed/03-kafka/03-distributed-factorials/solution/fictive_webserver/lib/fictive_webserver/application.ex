@@ -4,11 +4,25 @@ defmodule FictiveWebserver.Application do
   @moduledoc false
 
   use Application
+  import Supervisor.Spec
+
+  @consumer_group "factorials_result_consumer_group"
+  @topic "factorials-result"
 
   def start(_type, _args) do
+    # using defaults
+    consumer_group_opts = []
+    gen_consumer_impl = FictiveWebserver.ResultConsumer
+    topic_names = [@topic]
+
     children = [
-      # Starts a worker by calling: FictiveWebserver.Worker.start_link(arg)
-      # {FictiveWebserver.Worker, arg}
+      # Starts a worker by calling: FactorialWorker.Worker.start_link(arg)
+      # {FactorialWorker.Worker, arg}
+      {FictiveWebserver.FactorialResultWaiter, []},
+      supervisor(
+        KafkaEx.ConsumerGroup,
+        [gen_consumer_impl, @consumer_group, topic_names, consumer_group_opts]
+      )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

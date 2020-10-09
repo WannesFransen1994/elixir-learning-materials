@@ -24,6 +24,27 @@ defmodule FictiveWebserver do
     message = %KafkaEx.Protocol.Produce.Message{value: Integer.to_string(number)}
     request = %{@default_req | messages: [message]}
 
-    KafkaEx.produce(request)
+    ts_before = DateTime.utc_now()
+
+    {:ok, _offset} = KafkaEx.produce(request)
+    # IO.inspect(offset, label: __MODULE__.OFFSET.REPORT)
+    ts_after = DateTime.utc_now()
+
+    {response, _time_information} =
+      FictiveWebserver.FactorialResultWaiter.wait_for_response(number, ts_before, ts_after)
+
+    ts_final = DateTime.utc_now()
+
+    produce_cost = DateTime.diff(ts_after, ts_before, :millisecond)
+    total_cost = DateTime.diff(ts_final, ts_before, :millisecond)
+
+    logging_message =
+      "produce delay (w/ ack) cost (in milliseconds): #{produce_cost} \t | total time cost: #{
+        total_cost
+      }"
+
+    IO.inspect(logging_message, label: TIME_INFORMATION_REPORT)
+
+    response
   end
 end
