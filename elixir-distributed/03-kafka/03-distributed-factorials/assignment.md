@@ -51,11 +51,15 @@ We can see that we'll have to write 2 applications. There will only be one webse
 
 You'll have to start with the basics. Provide 2 functions in your `FictiveWebserver` API module:
 
-* `FictiveWebserver.create_topic/0` -> make sure that the following settings are set:
-  * There are 2 partitions. You can read more about partitions and consumers [here](TODO).
-  * When producing, an ack of at least one broker needs to be sent back.
-* `FictiveWebserver.delete_topic/0`
-* Create the `factorials-to-be-calculated` topic manually.
+1. Create an app (add the `--sup` option for in the future).
+2. Add the appropriate [dependency](https://hex.pm/packages/kafka_ex).
+   * When you add the dependency (and then try to run the app), you might get an error.
+   * Add the necessary configuration. _(`brokers` is the utmost minimum information)_
+3. `FictiveWebserver.create_topic/0` -> make sure that the following settings are set:
+   * There are 2 partitions. You can read more about partitions and consumers [here](TODO).
+   * When producing, an ack of at least one broker needs to be sent back.
+4. `FictiveWebserver.delete_topic/0`
+5. Create the `factorials-to-be-calculated` topic manually.
 
 _Check the `create_topics` [api function](https://hexdocs.pm/kafka_ex/KafkaEx.html#create_topics/2) and the [associated struct](https://hexdocs.pm/kafka_ex/KafkaEx.Protocol.CreateTopics.html) documentation. Tip: Make the struct in your iex shell and you'll see what the expected values are._
 
@@ -65,18 +69,14 @@ Generate a new project for the fictive webserver. The first goal will be to prod
 
 You can follow these steps:
 
-1. Create an app (add the `--sup` option for in the future).
-2. Make a function that does nothing else than output a number to your screen. Provide a function that accepts 2 arguments (`FictiveWebserver.generate_number(max, min)`).
-3. Add the appropriate [dependency](https://hex.pm/packages/kafka_ex).
-   * When you add the dependency (and then try to run the app), you might get an error.
-   * Add the necessary configuration. _(`brokers` is the utmost minimum information)_
-4. In you `iex` shell (perhaps with a compiled module), produce an event to a topic.
+1. Make a function that does nothing else than output a number to your screen. Provide a function that accepts 2 arguments (`FictiveWebserver.generate_number(max, min)`).
+2. In you `iex` shell (perhaps with a compiled module), produce an event to a topic.
    * Use the `KafkaEx.Protocol.Produce.Message` struct to create a message.
    * Create a produce request message (with a basic acknowlegdment).
    * Send the request (and look at the return values!). Collect the offsets of the messages.
    * Feel free to verify whether your produced events have arrived with `kafka-console-consumer` (don't forget the `--from-beginning` option if you're not consuming in real-time!).
-5. Refactor the previous function so that it produces an event with the number to the topic.
-6. Print out the offset after producing the event.
+3. Refactor the previous function so that it produces an event with the number to the topic.
+4. Print out the offset after producing the event.
    * You can expect output like:
 
    ```elixir
