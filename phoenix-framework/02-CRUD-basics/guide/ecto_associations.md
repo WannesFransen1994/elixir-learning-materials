@@ -282,7 +282,9 @@ Besides creating the associations in the migrations and schema's we also need a 
 
  ```
 
+<!-- markdown-link-check-disable -->
  If we start the server and go to [http://localhost:4000/users/new](http://localhost:4000/users/new) we can see the extra username and password form field. When we fill in everything and press save, both the user and credentials will be saved seperately. Take a look at your database to confirm this.
+ <!-- markdown-link-check-enable -->
 
 ## Retrieving associations
 The last important aspect of associations is the possibility of retrieving associated data. When requesting an entry from the database non of it's associations are loaded by default (`#Ecto.Association.NotLoaded<association :projects is not loaded>`) You can verify this using `IEx.pry()`. Loading associations can be done fairly easily using `preload/3`.

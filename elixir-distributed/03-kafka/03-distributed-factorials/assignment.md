@@ -56,7 +56,7 @@ You'll have to start with the basics. Provide 2 functions in your `FictiveWebser
    * When you add the dependency (and then try to run the app), you might get an error.
    * Add the necessary configuration. _(`brokers` is the utmost minimum information)_
 3. `FictiveWebserver.create_topic/0` -> make sure that the following settings are set:
-   * There are 2 partitions. You can read more about partitions and consumers [here](TODO).
+   * There are 2 partitions. You can read more about partitions and consumers <!-- markdown-link-check-disable --> [here](TODO) <!-- markdown-link-check-enable -->.
    * When producing, an ack of at least one broker needs to be sent back.
 4. `FictiveWebserver.delete_topic/0`
 5. Create the `factorials-to-be-calculated` topic manually.

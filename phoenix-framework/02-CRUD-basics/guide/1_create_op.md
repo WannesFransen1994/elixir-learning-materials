@@ -238,8 +238,9 @@ Then we'll create the templates. First we'll create the folder `templates/user/`
 ```
 
 So what exactly is happening here? First we create a form with the `form_for` macro. We pass the changeset (formdata) to it and it'll automatically match the values to the fields. After that we give a path to where the post request needs to be sent using path helpers. Finally we use the anonymous function f to build our form.
-
+<!-- markdown-link-check-disable -->
 Now everything is in place and we can run the application server. Do this by executing the following command in the terminal and visit [localhost:4000/users/new](http://localhost:4000/users/new) in your prefered browser. 
+<!-- markdown-link-check-enable -->
 ```bash
 iex -S mix phx.server
 ```

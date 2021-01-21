@@ -2,7 +2,7 @@
 
 ## Goal
 
-In this course we'll cover some aspects of web development with Phoenix. This course content was originally supplemtary on previous Java courses, so if there are any parts that are hard to understand due to a lack of explanation, please make an issue as explained in the contributing guidelines (parent repository). We assume that you've completed the [elixir-basics](https://github.com/WannesFransen1994/elixir-basics) course. The topics are listed under [Topics](#topics), which will be a short summary of what is covered in this repository.
+In this course we'll cover some aspects of web development with Phoenix. This course content was originally supplemtary on previous Java courses, so if there are any parts that are hard to understand due to a lack of explanation, please make an issue as explained in the contributing guidelines (parent repository). We assume that you've completed the [elixir-basics](https://github.com/WannesFransen1994/elixir-learning-materials/tree/master/elixir-basics) course. The topics are listed under [Topics](#topics), which will be a short summary of what is covered in this repository.
 
 ## Usage
 
