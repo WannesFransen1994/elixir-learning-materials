@@ -1,0 +1,12 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
+  <p>A productive web framework that<br />does not compromise speed or maintainability.</p>
+</section>
+
+<section class="row">
+  this page is for: <%= @role %>
+  <br>
+  user accounts with password "t":
+  <br>
+  user - manager - admin
+</section>
