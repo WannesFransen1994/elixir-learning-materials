@@ -1,4 +1,0 @@
-# Contents
-
-* Webpack
-* Lab session

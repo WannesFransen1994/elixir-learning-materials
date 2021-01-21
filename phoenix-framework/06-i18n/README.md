@@ -1,4 +1,0 @@
-# Contents
-
-* Multilingual
-* Lab session

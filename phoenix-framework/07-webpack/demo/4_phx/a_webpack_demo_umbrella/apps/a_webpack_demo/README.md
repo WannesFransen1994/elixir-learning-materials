@@ -1,3 +1,0 @@
-# AWebpackDemo
-
-**TODO: Add description**

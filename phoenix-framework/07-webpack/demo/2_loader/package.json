@@ -1,9 +1,0 @@
-{
-  "name": "webpack-loader",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "webpack -d && webpack-dev-server --open",
-    "build": "webpack -p"
-  },
-  "license": "MIT"
-}

@@ -1,3 +1,0 @@
-# UserCats
-
-**TODO: Add description**
