@@ -9,13 +9,15 @@ We're going to create a simple website with 2 pages containing some text. After 
 Create a new project with:
 
 ```bash
- mix phx.new i18n --no-ecto --no-webpack
+ mix phx.new i18n --no-ecto --no-webpack --umbrella --no-dashboard
 ```
+
+_**Make this a umbrella project in order to get a deeper understanding how Phoenix uses gettext! You'll also acquire important insights regarding circular dependencies and how these can be resolved.**_
 
 Adjust the following files, an in-depth explanation should no longer be necessary of the following changes:
 
 ```elixir
-# router.ex
+# i18n_web/router.ex
   scope "/", I18nWeb do
     pipe_through :browser
 

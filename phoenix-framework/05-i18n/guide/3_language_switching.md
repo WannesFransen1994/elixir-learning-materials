@@ -50,7 +50,9 @@ Firing up your browser results in language buttons that do nothing (for now).
 
 ## Reading the language from the URL
 
-Right now we're pointing to a single location in our application to configure our URL. Though it should be configureable on whatever page. That's why we'll write this as a plug:
+Right no
+  end
+w we're pointing to a single location in our application to configure our URL. Though it should be configureable on whatever page. That's why we'll write this as a plug:
 
 ```elixir
 # router.ex
@@ -109,3 +111,5 @@ You need to be able to show:
 
 * That the cookie is stored in your browser
 * That the set-cookie header is present in your response
+
+__UPDATE: the guide isn't finished yet. Go to the next file in this folder (`4_umbrella_translations.md`).__
