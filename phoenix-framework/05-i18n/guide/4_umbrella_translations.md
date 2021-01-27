@@ -307,8 +307,6 @@ Update your project dependencies so that it includes the `I18nTranslations` app.
   end
 ```
 
-
-
 ## Generating the locales again
 
 Now we have to pay attention. If you go into the `apps/i18n_translations` folder, you'll see that when you execute `mix gettext.extract --merge`, no translations are added.

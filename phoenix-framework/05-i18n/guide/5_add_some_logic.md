@@ -62,3 +62,11 @@ And at last the controller logic:
 ```
 
 Now click on the link on your homepage and you should see a generated password. In you URL bar, put in a high number (e.g. 500), and you should see the translated error message.
+
+## References on the web
+
+* [https://elixirforum.com/t/translate-ecto-validation-messages/5469](https://elixirforum.com/t/translate-ecto-validation-messages/5469)
+* [https://github.com/elixir-gettext/gettext/issues/178](https://github.com/elixir-gettext/gettext/issues/178)
+* [https://github.com/elixir-gettext/gettext/issues/126#issuecomment-255518564](https://github.com/elixir-gettext/gettext/issues/126#issuecomment-255518564)
+* [https://elixirforum.com/t/umbrella-apps-and-gettext/15313/5](https://elixirforum.com/t/umbrella-apps-and-gettext/15313/5)
+* [https://elixirforum.com/t/create-localisation-and-translate-file-under-umbrella-project/29496](https://elixirforum.com/t/create-localisation-and-translate-file-under-umbrella-project/29496)
