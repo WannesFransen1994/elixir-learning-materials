@@ -15,7 +15,7 @@ Calling `greet("Joe")` will return `"Hello, Joe"`.
 Elixir provides the same concept using a slightly different syntax:
 
 ```elixir
-def greet(name):
+def greet(name) do
     "Hello, #{name}"
 ```
 
