@@ -12,6 +12,8 @@ _Tip: you'll only have to be in your `app_name_umbrella/apps/app_name_web` folde
 
 Display a page which generates a random number. Do note: the actual generation of the number should be done in your domain logic app (app_name_umbrella/apps/app_name_web).
 
+_Note: Challenge yourself. E.g. give a min-max range._
+
 ## Resources
 
 * [https://hexdocs.pm/phoenix/installation.html](https://hexdocs.pm/phoenix/installation.html)
