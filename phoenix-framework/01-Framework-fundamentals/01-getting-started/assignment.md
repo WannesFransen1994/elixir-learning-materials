@@ -10,7 +10,7 @@ _Tip: you'll only have to be in your `app_name_umbrella/apps/app_name_web` folde
 
 ## Task 02: generate a random number
 
-Display a page which generates a random number. Do note: the actual generation of the number should be done in your domain logic app (app_name_umbrella/apps/app_name_web).
+Display a page which generates a random number. Do note: the actual generation of the number should be done in your domain logic app (app_name_umbrella/apps/app_name).
 
 _Note: Challenge yourself. E.g. give a min-max range._
 
