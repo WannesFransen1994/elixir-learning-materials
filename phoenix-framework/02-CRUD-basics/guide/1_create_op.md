@@ -11,7 +11,7 @@ mix phx.new user_demo --umbrella --database mysql
 First we'll make a schema and migration. Let's make an example of a stereotypical user table with columns first_name, last_name and date_of_birth using a generator.
 
 ```bash
-mix phx.gen.schema User users first_name:string last_name:string date_of_birth:date
+mix phx.gen.schema UserContext.User users first_name:string last_name:string date_of_birth:date
 ```
 
 Our users needs to be unique, so let us also make an unique index on the date of birth, first and last name to ensure data integrity. We don't need the auto-generated timestamps so delete those. Your migration file should now look similar to this:
