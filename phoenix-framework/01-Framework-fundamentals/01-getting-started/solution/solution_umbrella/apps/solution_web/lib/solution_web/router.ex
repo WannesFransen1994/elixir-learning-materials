@@ -17,7 +17,9 @@ defmodule SolutionWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    ## Maak een nieuwe pagina localhost:4000/task_1
     get("/task_1", PageController, :task_1)
+    ## Maak een nieuwe pagina localhost:4000/task_2
     get("/task_2", PageController, :task_2)
   end
 
