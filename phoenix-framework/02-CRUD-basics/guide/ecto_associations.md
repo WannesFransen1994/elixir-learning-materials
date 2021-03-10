@@ -168,7 +168,7 @@ defmodule UserDemo.Repo.Migrations.CreateUsersTasks do
       add :task_id, references(:tasks)
     end
 
-    create unique_index(:user_tasks, [:user_id, :task_id])
+    create unique_index(:users_tasks, [:user_id, :task_id])
   end
 end
 ```
@@ -202,7 +202,7 @@ defmodule UserDemo.UserContext.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias UserDemo.TaskContext.Task
-  alias UerDemo.CredentialContext.Credential
+  alias UerDemo.UserContext.Credential
 
   schema "users" do
     field :age, :integer
