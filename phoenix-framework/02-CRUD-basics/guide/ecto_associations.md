@@ -229,11 +229,11 @@ Besides creating the associations in the migrations and schema's we also need a 
 1. Using `put_assoc/3` if the associated entry does already exist in the database. _(not implemented in the demo)_
 ```Elixir
   @doc false
-  def changeset(credential, attrs, %User{} = user) do
-    credential
-    |> cast(attrs, [:username, :password])
-    |> validate_required([:username, :password])
-    |> put_assoc(:user, user)
+  def changeset(user, attrs, %Credentails{} = credentials) do
+    user
+    |> cast(attrs, [:name, :age])
+    |> validate_required([:name, :age])
+    |> put_assoc(:credentials, credentials)
   end
 ```
 
@@ -241,11 +241,11 @@ Besides creating the associations in the migrations and schema's we also need a 
 
 ```Elixir
   @doc false
-  def changeset(credential, attrs) do
-    credential
-    |> cast(attrs, [:username, :password])
-    |> validate_required([:username, :password])
-    |> cast_assoc(:user)
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :age])
+    |> validate_required([:name, :age])
+    |> cast_assoc(:credentials)
   end
 ```
  This approach expects the attrs to contain the user information. In order to achieve this we can make use of a special Phoenix.HTML helper named `inputs_for/4`. We will change the user form template to make use of this helper to create both the user and the credentials entity in one go.
