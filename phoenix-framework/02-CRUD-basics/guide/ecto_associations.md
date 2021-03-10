@@ -168,7 +168,7 @@ defmodule UserDemo.Repo.Migrations.CreateUsersTasks do
       add :task_id, references(:tasks)
     end
 
-    create unique_index(:user_task_index, [:user_id, :task_id])
+    create unique_index(:user_tasks, [:user_id, :task_id])
   end
 end
 ```
