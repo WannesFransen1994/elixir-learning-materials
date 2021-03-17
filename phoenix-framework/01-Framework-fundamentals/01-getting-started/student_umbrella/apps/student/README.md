@@ -1,3 +1,0 @@
-# Student
-
-**TODO: Add description**
