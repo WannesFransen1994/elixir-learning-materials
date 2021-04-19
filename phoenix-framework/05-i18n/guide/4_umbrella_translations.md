@@ -10,6 +10,8 @@ One of the use cases you'll commonly stumble upon is the need to translate error
 
 This extremely simple password generator will accept a length parameter. If the length is too long, it'll raise an error.
 
+Include the following code in the `I18n` file located in the `i18n` project. (Not in `i18n_web`)
+
 ```elixir
 defmodule I18n do
   @default_size 64
@@ -59,7 +61,7 @@ defmodule I18n do
 end
 ```
 
-If you'd try to compile this, you'd see the following (remove your `_build` folder!):
+If you'd try to compile this (run the server), you'd see the following (remove your `_build` folder!):
 
 ```text
 == Compilation error in file lib/i18n.ex ==
@@ -69,7 +71,7 @@ If you'd try to compile this, you'd see the following (remove your `_build` fold
 This is because you're depending on a module that isn't compiled yet. That's why you have to add it to your dependencies in `mix.exs`. Only thing is, it'll not work because you've introduced a circular dependency!
 
 ```elixir
-# updated - faulty - mix.exs file:
+# updated - faulty - mix.exs file in the i18n project:
   defp deps do
     [
       {:phoenix_pubsub, "~> 2.0"},
@@ -101,7 +103,7 @@ $ cd i18n_translations && mkdir -p priv/gettext
 
 ```
 
-Add the `gettext` dependency to your project dependencies in your `mix.exs` file.
+Add the `gettext` dependency to your project (`i18n_translations`) dependencies in your `mix.exs` file.
 
 ```elixir
   defp deps do
@@ -303,7 +305,9 @@ Update your project dependencies so that it includes the `I18nTranslations` app.
 
 ```elixir
   defp deps do
-    [{:i18n_translations, in_umbrella: true}]
+    [
+      {:i18n_translations, in_umbrella: true}
+    ]
   end
 ```
 

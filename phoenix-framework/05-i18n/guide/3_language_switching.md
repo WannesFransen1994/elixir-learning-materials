@@ -29,6 +29,8 @@ defmodule I18nWeb.LayoutView do
   end
 end
 ```
+_We add this code block in the view and not directly in the .html.eex files to increase read and use-ability. By doing so we can call this function in the template layout template files_
+
 
 ```html
 <!-- app.html.eex -->
@@ -46,42 +48,45 @@ end
     </section>
 ```
 
+_Make sure to not replace to much of the layout template._
+
 Firing up your browser results in language buttons that do nothing (for now).
 
 ## Reading the language from the URL
 
-Right no
-  end
-w we're pointing to a single location in our application to configure our URL. Though it should be configureable on whatever page. That's why we'll write this as a plug:
+Right now we're pointing to a single location (namely: Routes.page_path(conn, :index)) in our application to configure our URL. Though it should be configureable on whatever page. That's why we'll write this as a plug.
+
+A plug is a code block that can be configured to execute on multiple routes. 
 
 ```elixir
-# router.ex
+# edit in the router.ex file
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug I18nWeb.Plugs.Locale
+    plug I18nWeb.Plugs.Locale #This is new
   end
 ```
 
 ```elixir
+# Create new plug module & folder at location: i18n_web/plugs/locale.ex
 defmodule I18nWeb.Plugs.Locale do
-  import Plug.Conn
+  import Plug.Conn # Let this module know it is a plug
 
-  @locales Gettext.known_locales(I18nWeb.Gettext)
+  @locales Gettext.known_locales(I18nWeb.Gettext) #One time retrieve the locales from the config file and store it in a @locales variable.
 
   def init(default), do: default
 
   def call(conn, _options) do
     case fetch_locale_from(conn) do
       nil ->
-        conn
+        conn #No locale is set or found in the cookies
 
-      locale ->
+      locale -> # A locale is set of found in the cookies, change the locale to the prefered langage and place a new cookie
         I18nWeb.Gettext |> Gettext.put_locale(locale)
-        conn |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60)
+        conn |> put_resp_cookie("locale", locale, max_age: 365 * 24 * 60 * 60) #Put a locale cookie in the response.
     end
   end
 
@@ -95,8 +100,8 @@ defmodule I18nWeb.Plugs.Locale do
 end
 ```
 
-First of all we add the plug to our browser pipeline. This causes every request to pass through that plug. After which, if the language setting is present, will configure this for every request it is processing. This is done with `I18nWeb.Gettext |> Gettext.put_locale(locale)`.
 
+First of all we add the plug to our browser pipeline. This causes every browser request to pass through that plug. Notice that the browser pipeline is included in the scope at the `router.ex`. The plug itself will check if the language setting is present. If so, it will configure this for every request it is processing. This is done with `I18nWeb.Gettext |> Gettext.put_locale(locale)`.
 After the locale is found and set for the connection, we add a cookie.
 
 ## Closing notes
@@ -111,5 +116,3 @@ You need to be able to show:
 
 * That the cookie is stored in your browser
 * That the set-cookie header is present in your response
-
-__UPDATE: the guide isn't finished yet. Go to the next file in this folder (`4_umbrella_translations.md`).__
