@@ -16,8 +16,7 @@ defmodule I18n do
     do: {:error, Gettext.dgettext("errors", @error_message_too_large, max_size: @max_size)}
 
   def random_string(size) when is_integer(size) do
-    response =
-      :crypto.strong_rand_bytes(@default_size) |> Base.url_encode64() |> binary_part(0, size)
+    response = :crypto.strong_rand_bytes(size) |> Base.url_encode64() |> binary_part(0, size)
 
     {:ok, response}
   end
