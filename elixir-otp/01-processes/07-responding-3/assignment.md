@@ -16,7 +16,7 @@ pid = spawn( fn -> Counter.counter(parent_pid) end )
 
 Let's give each process a name for clarity's sake:
 
-* Process `Main` is he "main process", the one who spawns the `counter` process.
+* Process `Main` is the "main process", the one who spawns the `counter` process.
 * Process `Counter` is the  child process that runs `counter`.
 
 Right now, `Counter` always sends its responses to `Main`.
