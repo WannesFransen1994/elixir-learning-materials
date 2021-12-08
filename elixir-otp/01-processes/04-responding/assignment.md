@@ -63,7 +63,7 @@ back to the parent process.
 We build on the `print` exercise.
 
 * Pass the parent pid to `print` as shown above.
-* Have `print` send a message to back to its parent. This message can be anything you want.
+* Have `print` send a message back to its parent. This message can be anything you want.
 * `print` ends with a recursive call to itself. Think about how this should be updated.
 * Have the parent process send N messages to the child process, where you can pick any N you want.
 * After having sent N messages to the child process, the parent process
