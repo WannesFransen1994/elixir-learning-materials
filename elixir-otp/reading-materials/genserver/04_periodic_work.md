@@ -4,7 +4,7 @@ It is often that an application needs to do periodic work. Or even better, maybe
 
 ## A simple use case
 
-Imagine that in an IoT context, you've got a temperature (or/ and moisture/ humidity) sensor and you want it to report a warning when a value becomes too large / small. This all to protect your beatiful flowers or to make an optimal greenhouse.
+Imagine that in an IoT context, you've got a temperature (or/ and moisture/ humidity) sensor and you want it to report a warning when a value becomes too large / small. This all to protect your beautiful flowers or to make an optimal greenhouse.
 
 In order to do this, we want a simple application that reports the values of the sensors every 5 minutes. How do we achieve this? Messages of course!
 
@@ -94,4 +94,4 @@ So what happened here? In our `init` callback we send a message after 10 seconds
 
 _Please do note that there are other ways to implement this as well, but we've chosen for this approach to explicitly illustrate that `handle_continue` isn't only called after the init, but can also be called after other callbacks._
 
-Good job! This was a really short topic, but now you can make simple periodic work happen. For more complex use cases, it can be interesting to look at libraries specified in this (e.g. [Oban](https://hex.pm/packages/oban)).
+Good job! This was a really short topic, but now you can make simple periodic work happen. For more complex use cases, it can be interesting to look at libraries specialised in this (e.g. [Oban](https://hex.pm/packages/oban)).
