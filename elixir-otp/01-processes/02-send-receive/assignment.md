@@ -14,7 +14,7 @@ pid = spawn(&func/0)
 ```
 
 A process can send an arbitrary message (a string, a number, a tuple, ...)
-to another processes as follows:
+to another process as follows:
 
 ```elixir
 send(pid, message)
