@@ -247,7 +247,7 @@ A lot is happening here. We see that we first make a reference, this to uniquely
 
 You wait until you get a response. In the meanwhile, the message with the unique identifier was sent towards your library process. It receives the message, sends an answer with the same identifier (basically you're saying "Hey this response belongs to that request!") and wait for the next message.
 
-When the caller, which is waiting for a message with the same identifier (that's the pin operator there), recieves the message it'll return the books variable that was in the message. There we go. Phew, that's a lot for a simple functionality isn't it? Let's see how we can do this with a GenServer:
+When the caller, which is waiting for a message with the same identifier (that's the pin operator there), receives the message it'll return the books variable that was in the message. There we go. Phew, that's a lot for a simple functionality isn't it? Let's see how we can do this with a GenServer:
 
 ```elixir
 # ...
