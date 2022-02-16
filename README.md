@@ -4,7 +4,7 @@
 
 Elixir is a dynamically-typed functional programming language built upon the Erlang VM. With this we can create low-latency, scalable, maintainable and fault-tolerant systems.
 
-It is also used succesfully in other domains such as IoT, web development, data processing and so on.
+It is also used successfully in other domains such as IoT, web development, data processing and so on.
 
 ## Purpose
 
