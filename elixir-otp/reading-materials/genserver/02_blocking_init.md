@@ -53,7 +53,7 @@ Elixir GenServers use Erlang its gen_server module internally. The next section 
 
 ## Diving into the unknown
 
-### GenSever implementation
+### GenServer implementation
 
 First let us take a look at the [GenServer implementation in Elixir](https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/gen_server.ex):
 
