@@ -22,7 +22,7 @@ We hope that with making these materials open source, we close the gap between c
 
 ## Theory
 
-While practice and exercises are all good and well, understanding the theory is necessary. In order to facilitate that, we're providing an extra website [education.elixir.ucll.be (work in progress!)](https://education.elixir.ucll.be) where we'll cover the theory and possibly other topics as well.
+While practice and exercises are all good and well, understanding the theory is necessary. Don't forget to pay attention to important reading materials.
 
 ## Special thanks and sponsors
 
