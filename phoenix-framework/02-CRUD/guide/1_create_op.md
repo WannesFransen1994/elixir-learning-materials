@@ -14,7 +14,7 @@ First we'll make a schema and migration. Let's make an example of a stereotypica
 mix phx.gen.schema UserContext.User users first_name:string last_name:string date_of_birth:date
 ```
 
-Our users needs to be unique, so let us also make an unique index on the date of birth, first and last name to ensure data integrity. We don't need the auto-generated timestamps so delete those. Your migration file should now look similar to this:
+Our users needs to be unique, so let us also make a unique index on the date of birth, first and last name to ensure data integrity. We don't need the auto-generated timestamps so delete those. Your migration file should now look similar to this:
 
 ```elixir
 defmodule UserDemo.Repo.Migrations.CreateUsers do
@@ -35,7 +35,7 @@ end
 ```
 A schema is a representation of a data structure and what associated fields match with the database.
 
-When an unique index conflic occurs, this would raise an error our system doesn't know about. That's why we have to specify this unique constraint in our schema as well.
+When a unique index conflict occurs, this would raise an error our system doesn't know about. That's why we have to specify this unique constraint in our schema as well.
 ```elixir
 defmodule UserDemo.UserContext.User do
   use Ecto.Schema
@@ -79,7 +79,7 @@ Erlang/OTP 22 [erts-10.6.3] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threa
 [info] Running UserDemoWeb.Endpoint with cowboy 2.7.0 at 0.0.0.0:4000 (http)
 [info] Access UserDemoWeb.Endpoint at http://localhost:4000
 Interactive Elixir (1.10.0) - press Ctrl+C to exit (type h() ENTER for help)
-# Create an User struct based on the earlier created user schema
+# Create a User struct based on the earlier created user schema
 iex(1)> initial_user = %UserDemo.UserContext.User{}
 %UserDemo.UserContext.User{
   __meta__: #Ecto.Schema.Metadata<:built, "users">,
@@ -90,7 +90,7 @@ iex(1)> initial_user = %UserDemo.UserContext.User{}
 }
 iex(2)>
 nil
-# A manually defined dictionary of parameters. Normally this will be defined by an external sources such as a webform.
+# A manually defined dictionary of parameters. Normally this will be defined by an external source such as a webform.
 iex(3)> parameters_provided_by_external_sources = %{"date_of_birth" => Date.utc_today, "first_name" => "John", "last_name" => "Doe"}
 %{
   "date_of_birth" => ~D[2020-02-06],
@@ -115,7 +115,7 @@ iex(5)> UserDemo.UserContext.User.changeset initial_user, parameters_provided_by
 iex(6)>
 ```
 
-_The actually used commands above are, feel free to copy paste them to verify the output ourself:_
+_The actually used commands are the ones above, feel free to copy and paste them to verify the output yourself:_
 
 ```elixir
 initial_user = %UserDemo.UserContext.User{}
@@ -193,7 +193,7 @@ end
 
 For now let us forget that we're still missing our view and templates. We can see the `new/2` and `create/2` actions. For the `new/2` action, we create a changeset as forms need these to render themselves. Because it is new, we'll create a new struct and pass it as a parameter. Then when we render the template, we pass the changeset so that we can use it later on.
 
-The `create/2` action on the other hand, will receive some parameters from the post requests. These are already parsed thanks to the plugs in the `:browser` pipeline. We use these attributes to create a new user, and if no errors are present we'll  pattern matched and redirect to a new form (for now). Otherwise you'll render that same form again with the necessary errors. As visibile in the pattern match, the second value returned with the `:error` is the Ecto.Changeset. This Ecto.Changeset was matched against the database but had validation errors. (e.g. earlier defined `unique_users_index`-constraint). Those validations errors are shown in the form to notify the user of any mistakes.
+The `create/2` action on the other hand, will receive some parameters from the post requests. These are already parsed thanks to the plugs in the `:browser` pipeline. We use these attributes to create a new user, and if no errors are present we'll pattern match and redirect to a new form (for now). Otherwise you'll render that same form again with the necessary errors. As visibile in the pattern match, the second value returned with the `:error` is the Ecto.Changeset. This Ecto.Changeset was matched against the database but had validation errors. (e.g. earlier defined `unique_users_index`-constraint). Those validations errors are shown in the form to notify the user of any mistakes.
 
 ## The view
 
@@ -239,7 +239,7 @@ Then we'll create the templates. First we'll create the folder `templates/user/`
 
 So what exactly is happening here? First we create a form with the `form_for` macro. We pass the changeset (formdata) to it and it'll automatically match the values to the fields. After that we give a path to where the post request needs to be sent using path helpers. Finally we use the anonymous function f to build our form.
 <!-- markdown-link-check-disable -->
-Now everything is in place and we can run the application server. Do this by executing the following command in the terminal and visit [localhost:4000/users/new](http://localhost:4000/users/new) in your prefered browser. 
+Now everything is in place and we can run the application server. Do this by executing the following command in the terminal and visit [localhost:4000/users/new](http://localhost:4000/users/new) in your preferred browser. 
 <!-- markdown-link-check-enable -->
 ```bash
 iex -S mix phx.server
