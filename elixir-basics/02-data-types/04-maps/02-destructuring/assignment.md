@@ -23,8 +23,8 @@ value = map[:a]   # value = 1
 value = map[:x] || :oops   # value = :oops
 
 # Destructuring
-%{a => x} = map                   # x is now 1
-%{a => x, b => y, c => z} = map   # x = 1, y = 2, z = 3
+%{:a => x} = map                   # x is now 1
+%{:a => x, :b => y, :c => z} = map   # x = 1, y = 2, z = 3
 ```
 
 ## Task
