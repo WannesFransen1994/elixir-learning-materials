@@ -6,7 +6,7 @@ Before you start with this assignment, read the following guides:
 * [Read operation](../guide/2_read_op.md)
 * [Update operation](../guide/3_update_op.md)
 * [Delete operation](../guide/4_delete_op.md)
-* [Associations](../guide/ecto_associations.md)
+* [Associations](../guide/5_ecto_associations.md)
 
 ## Task 01: CRUD for a single entity
 
