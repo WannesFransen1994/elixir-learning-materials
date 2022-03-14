@@ -99,7 +99,7 @@ end
 
 ```
 
-Besides editing the migrations some additional changes have to be made to the schema's of both the user and the credentails.
+Besides editing the migrations some additional changes have to be made to the schema's of both the user and the credentials.
 ```Elixir
 defmodule UserDemo.UserContext.User do
   use Ecto.Schema
@@ -202,14 +202,14 @@ defmodule UserDemo.UserContext.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias UserDemo.TaskContext.Task
-  alias UerDemo.CredentailContext.Credentail
+  alias UerDemo.CredentialContext.Credential
 
   schema "users" do
     field :age, :integer
     field :name, :string
     # has_many :tasks, Task # I'm commented
     many_to_many :tasks, Task, join_through: "users_tasks" # I'm new!
-    has_one :credentail, Credentail
+    has_one :credential, Credential
     timestamps()
   end
 
@@ -229,7 +229,7 @@ Besides creating the associations in the migrations and schema's we also need a 
 1. Using `put_assoc/3` if the associated entry does already exist in the database. _(not implemented in the demo)_
 ```Elixir
   @doc false
-  def changeset(user, attrs, %Credentails{} = credentials) do
+  def changeset(user, attrs, %Credentials{} = credentials) do
     user
     |> cast(attrs, [:name, :age])
     |> validate_required([:name, :age])
