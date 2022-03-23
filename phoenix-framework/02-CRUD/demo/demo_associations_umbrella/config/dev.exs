@@ -1,11 +1,11 @@
-use Mix.Config
+import Config
 
 # Configure your database
-config :user_demo, UserDemo.Repo,
+config :demo_associations, DemoAssociations.Repo,
   username: "root",
   password: "t",
-  database: "user_demo_dev",
   hostname: "localhost",
+  database: "demo_associations_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -14,20 +14,18 @@ config :user_demo, UserDemo.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with webpack to recompile .js and .css sources.
-config :user_demo_web, UserDemoWeb.Endpoint,
-  http: [port: 4000],
-  debug_errors: true,
-  code_reloader: true,
+# with esbuild to bundle .js and .css sources.
+config :demo_associations_web, DemoAssociationsWeb.Endpoint,
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
+  code_reloader: true,
+  debug_errors: true,
+  secret_key_base: "I45vXyp0oh3oicTu5PJOleD79anpjjNR+ik6j0D5AutFiDxkCQNjr9k6rr8svsO3",
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../apps/user_demo_web/assets", __DIR__)
-    ]
+    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
@@ -55,13 +53,13 @@ config :user_demo_web, UserDemoWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :user_demo_web, UserDemoWeb.Endpoint,
+config :demo_associations_web, DemoAssociationsWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/user_demo_web/(live|views)/.*(ex)$",
-      ~r"lib/user_demo_web/templates/.*(eex)$"
+      ~r"lib/demo_associations_web/(live|views)/.*(ex)$",
+      ~r"lib/demo_associations_web/templates/.*(eex)$"
     ]
   ]
 
