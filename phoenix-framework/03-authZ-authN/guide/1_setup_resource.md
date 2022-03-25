@@ -159,7 +159,7 @@ end
 
 ### Seeding your database
 
-This should normally enough to set up your resource. While this is great, after we've added authentication we'll want some kind of default user accounts. Let us adjust the file in `apps/auth/priv/repo/seeds.exs`:
+This should normally be enough to set up your resource. While this is great, after we've added authentication we'll want some kind of default user accounts. Let us adjust the file in `apps/auth/priv/repo/seeds.exs`:
 
 ```elixir
 {:ok, _cs} =
