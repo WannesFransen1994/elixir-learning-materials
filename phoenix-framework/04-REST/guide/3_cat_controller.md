@@ -296,7 +296,7 @@ Your controller should look like:
     case CatContext.delete_cat(cat) do # Delete the cat from the database
     {:ok, %Cat{}} ->  #If delete sucessfull, send a 200 message
             send_resp(conn, :no_content, "")
-    {:error, cs} ->   # If delete failed, notify the end user about the failure
+    {:error, _cs} ->   # If delete failed, notify the end user about the failure
         conn
         |> send_resp(400, "Something went wrong, sorry.")
     end
