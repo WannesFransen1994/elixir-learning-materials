@@ -1,0 +1,13 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
+  <p>Peace of mind from prototype to production</p>
+</section>
+
+<section class="row">
+  <ul>
+    <li><a href="/users">BAD practice: users page</a></li>
+    <li><a href={Routes.user_path(@conn, :index)}>OK practice (v1.6): users page</a></li>
+    <li><%= link "Best practice (v1.6): users page", to: Routes.user_path(@conn, :index) %></li>
+
+  </ul>
+</section>
