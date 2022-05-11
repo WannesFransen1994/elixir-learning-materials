@@ -110,9 +110,9 @@ In order to demonstrate specific roles, we'll use a page that'll print for who i
       <nav role="navigation">
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="<%= Routes.user_path(@conn, :index) %>">Users</a></li>
-          <li><a href="<%= Routes.session_path(@conn, :new) %>">Login</a></li>
-          <li><a href="<%= Routes.session_path(@conn, :logout) %>">Logout</a></li>
+          <li><a href={Routes.user_path(@conn, :index) }>Users</a></li>
+          <li><a href={Routes.session_path(@conn, :new) }>Login</a></li>
+          <li><a href={Routes.session_path(@conn, :logout) }>Logout</a></li>
           <li><a href="/user_scope">User scope</a></li>
           <li><a href="/manager_scope">Manager scope</a></li>
           <li><a href="/admin">Admin scope</a></li>
