@@ -229,7 +229,7 @@ Besides creating the associations in the migrations and schema's we also need a 
 1. Using `put_assoc/3` if the associated entry does already exist in the database. _(not implemented in the demo)_
 ```Elixir
   @doc false
-  def changeset(user, attrs, %Credentials{} = credentials) do
+  def changeset(user, attrs, %Credential{} = credentials) do
     user
     |> cast(attrs, [:name, :age])
     |> validate_required([:name, :age])
